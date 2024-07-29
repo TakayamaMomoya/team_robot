@@ -77,73 +77,27 @@ void CFollowPlayer::Update(CCamera *pCamera)
 
 	D3DXVECTOR3 pos = pPlayer->GetMtxPos(0);
 
-	// 注視点の設定
-	CBlock *pBlock = pPlayer->GetBlock();
+	m_fTimerPosR = 0.0f;
 
-	if (pBlock != nullptr)
-	{// ブロックを掴んでいる場合、中間に視点を向ける
-		D3DXVECTOR3 posPlayer = pPlayer->GetPosition();
-		D3DXVECTOR3 rotPlayer = pPlayer->GetRotation();
-		D3DXVECTOR3 posBlock = pBlock->GetPosition();
-		D3DXVECTOR3 vecDiff = posBlock - posPlayer;
-		
-		// 視点の設定
-		float fAngleDiff = atan2f(vecDiff.x, vecDiff.z);
-		float fDiff = rotPlayer.y - fAngleDiff;
-		universal::LimitRot(&fDiff);
+	universal::FactingRot(&pInfoCamera->rot.y, pPlayer->GetRotation().y + D3DX_PI, 0.1f);
 
-		universal::FactingRot(&pInfoCamera->rot.y, fAngleDiff + D3DX_PI, 0.04f);
+	universal::LimitRot(&pInfoCamera->rot.y);
 
-		D3DXVECTOR3 vecPole = universal::PolarCoordinates(pInfoCamera->rot);
+	D3DXMATRIX *pMtx = &pPlayer->GetMatrix();
 
-#ifdef _DEBUG
-		CEffect3D::Create(pPlayer->GetMtxPos(2) + vecPole * 500.0f, 20.0f, 3, D3DXCOLOR(1.0f, 1.0f, 0.0f, 1.0f));
-#endif
-		// 追従時の視点からラープ(視点)
-		D3DXVECTOR3 vecPoleOld = universal::PolarCoordinates(m_rotROld);
-		D3DXVECTOR3 posOld = pPlayer->GetMtxPos(2) + vecPoleOld * pInfoCamera->fLength;
-		D3DXVECTOR3 posDest = pPlayer->GetMtxPos(2) + vecPole * pInfoCamera->fLength;
+	D3DXVECTOR3 vecAddPosR = { pMtx->_31, pMtx->_32, pMtx->_33 };
 
-		m_fTimerPosR += CManager::GetDeltaTime();
+	pInfoCamera->posRDest = pos + vecAddPosR * m_fLengthPosR;
 
-		float fTime = m_fTimerPosR / 1.0f;
-		universal::LimitValuefloat(&fTime, 1.0f, 0.0f);
+	pInfoCamera->posRDest.y += 50.0f;	// 一旦むりやりちょっと高くする
 
-		pInfoCamera->posVDest = pos + vecPole * pInfoCamera->fLength;
+	// 目標の視点設定
+	D3DXVECTOR3 vecPole = universal::PolarCoordinates(pInfoCamera->rot);
+	pInfoCamera->posVDest = pos + vecPole * pInfoCamera->fLength;
 
-		// 注視点の設定
-		D3DXVECTOR3 posOldR = pPlayer->GetMtxPos(2);
-		D3DXVECTOR3 posDestR = posPlayer + vecDiff * 0.3f;
-		pInfoCamera->posRDest = universal::Lerp(posOldR, posDestR, fTime);
+	pCamera->MoveDist(FACT_CORRECT_POS);
 
-		// 目標位置に補正
-		pInfoCamera->posV += (pInfoCamera->posVDest - pInfoCamera->posV) * 0.2f;
-		pInfoCamera->posR += (pInfoCamera->posRDest - pInfoCamera->posR) * 0.3f;
-	}
-	else
-	{
-		m_fTimerPosR = 0.0f;
-
-		universal::FactingRot(&pInfoCamera->rot.y, pPlayer->GetRotation().y + D3DX_PI, 0.1f);
-
-		universal::LimitRot(&pInfoCamera->rot.y);
-
-		D3DXMATRIX *pMtx = &pPlayer->GetMatrix();
-
-		D3DXVECTOR3 vecAddPosR = { pMtx->_31, pMtx->_32, pMtx->_33 };
-
-		pInfoCamera->posRDest = pos + vecAddPosR * m_fLengthPosR;
-
-		pInfoCamera->posRDest.y += 50.0f;	// 一旦むりやりちょっと高くする
-
-		// 目標の視点設定
-		D3DXVECTOR3 vecPole = universal::PolarCoordinates(pInfoCamera->rot);
-		pInfoCamera->posVDest = pos + vecPole * pInfoCamera->fLength;
-
-		pCamera->MoveDist(FACT_CORRECT_POS);
-
-		m_rotROld = pInfoCamera->rot;
-	}
+	m_rotROld = pInfoCamera->rot;
 
 #ifdef _DEBUG
 	CEffect3D::Create(pInfoCamera->posRDest, 20.0f, 1, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));

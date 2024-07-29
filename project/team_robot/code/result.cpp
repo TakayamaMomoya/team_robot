@@ -87,7 +87,7 @@ void CResult::SetPlayer(void)
 		return;
 	
 	// ƒvƒŒƒCƒ„[‚ð‘€ì‚Å‚«‚È‚¢‚æ‚¤‚É‚·‚é
-	pPlayer->SetEnableInput(false);
+	//pPlayer->SetEnableInput(false);
 }
 
 //=====================================================

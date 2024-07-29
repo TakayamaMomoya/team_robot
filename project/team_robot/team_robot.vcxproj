@@ -167,7 +167,6 @@
     <ClCompile Include="code\afterimage.cpp" />
     <ClCompile Include="code\anim3D.cpp" />
     <ClCompile Include="code\animation2D.cpp" />
-    <ClCompile Include="code\animManager.cpp" />
     <ClCompile Include="code\backends\imgui_impl_dx9.cpp" />
     <ClCompile Include="code\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="code\block.cpp" />
@@ -182,19 +181,15 @@
     <ClCompile Include="code\debugproc.cpp" />
     <ClCompile Include="code\effect2D.cpp" />
     <ClCompile Include="code\effect3D.cpp" />
-    <ClCompile Include="code\enemySpawner.cpp" />
     <ClCompile Include="code\gameObject.cpp" />
     <ClCompile Include="code\meshCube.cpp" />
     <ClCompile Include="code\MyEffekseer.cpp" />
-    <ClCompile Include="code\enemy.cpp" />
-    <ClCompile Include="code\enemyBehaviour.cpp" />
     <ClCompile Include="code\fade.cpp" />
     <ClCompile Include="code\fan.cpp" />
     <ClCompile Include="code\fan2D.cpp" />
     <ClCompile Include="code\fan3D.cpp" />
     <ClCompile Include="code\game.cpp" />
     <ClCompile Include="code\goal.cpp" />
-    <ClCompile Include="code\guardRail.cpp" />
     <ClCompile Include="code\imgui.cpp" />
     <ClCompile Include="code\imgui_draw.cpp" />
     <ClCompile Include="code\imgui_tables.cpp" />
@@ -210,8 +205,6 @@
     <ClCompile Include="code\manager.cpp" />
     <ClCompile Include="code\meshcylinder.cpp" />
     <ClCompile Include="code\meshfield.cpp" />
-    <ClCompile Include="code\meshRoad.cpp" />
-    <ClCompile Include="code\meter.cpp" />
     <ClCompile Include="code\model.cpp" />
     <ClCompile Include="code\motion.cpp" />
     <ClCompile Include="code\myLib.cpp" />
@@ -228,7 +221,6 @@
     <ClCompile Include="code\pause.cpp" />
     <ClCompile Include="code\physics.cpp" />
     <ClCompile Include="code\player.cpp" />
-    <ClCompile Include="code\playerNinja.cpp" />
     <ClCompile Include="code\precompile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -238,7 +230,6 @@
     <ClCompile Include="code\result.cpp" />
     <ClCompile Include="code\resultBehavior.cpp" />
     <ClCompile Include="code\scene.cpp" />
-    <ClCompile Include="code\shuriken.cpp" />
     <ClCompile Include="code\skybox.cpp" />
     <ClCompile Include="code\slow.cpp" />
     <ClCompile Include="code\smoke.cpp" />
@@ -246,8 +237,6 @@
     <ClCompile Include="code\texture.cpp" />
     <ClCompile Include="code\timer.cpp" />
     <ClCompile Include="code\title.cpp" />
-    <ClCompile Include="code\tunnel.cpp" />
-    <ClCompile Include="code\tutorial.cpp" />
     <ClCompile Include="code\UI.cpp" />
     <ClCompile Include="code\UIManager.cpp" />
     <ClCompile Include="code\universal.cpp" />
@@ -256,7 +245,6 @@
     <ClInclude Include="code\afterimage.h" />
     <ClInclude Include="code\anim3D.h" />
     <ClInclude Include="code\animation2D.h" />
-    <ClInclude Include="code\animManager.h" />
     <ClInclude Include="code\backends\imgui_impl_dx9.h" />
     <ClInclude Include="code\backends\imgui_impl_win32.h" />
     <ClInclude Include="code\block.h" />
@@ -271,19 +259,15 @@
     <ClInclude Include="code\debugproc.h" />
     <ClInclude Include="code\effect2D.h" />
     <ClInclude Include="code\effect3D.h" />
-    <ClInclude Include="code\enemySpawner.h" />
     <ClInclude Include="code\gameObject.h" />
     <ClInclude Include="code\meshCube.h" />
     <ClInclude Include="code\MyEffekseer.h" />
-    <ClInclude Include="code\enemy.h" />
-    <ClInclude Include="code\enemyBehaviour.h" />
     <ClInclude Include="code\fade.h" />
     <ClInclude Include="code\fan.h" />
     <ClInclude Include="code\fan2D.h" />
     <ClInclude Include="code\fan3D.h" />
     <ClInclude Include="code\game.h" />
     <ClInclude Include="code\goal.h" />
-    <ClInclude Include="code\guardRail.h" />
     <ClInclude Include="code\imconfig.h" />
     <ClInclude Include="code\imgui.h" />
     <ClInclude Include="code\imgui_internal.h" />
@@ -301,8 +285,6 @@
     <ClInclude Include="code\manager.h" />
     <ClInclude Include="code\meshcylinder.h" />
     <ClInclude Include="code\meshfield.h" />
-    <ClInclude Include="code\meshRoad.h" />
-    <ClInclude Include="code\meter.h" />
     <ClInclude Include="code\model.h" />
     <ClInclude Include="code\motion.h" />
     <ClInclude Include="code\myLib.h" />
@@ -319,14 +301,12 @@
     <ClInclude Include="code\pause.h" />
     <ClInclude Include="code\physics.h" />
     <ClInclude Include="code\player.h" />
-    <ClInclude Include="code\playerNinja.h" />
     <ClInclude Include="code\precompile.h" />
     <ClInclude Include="code\renderer.h" />
     <ClInclude Include="code\ranking.h" />
     <ClInclude Include="code\result.h" />
     <ClInclude Include="code\resultBehavior.h" />
     <ClInclude Include="code\scene.h" />
-    <ClInclude Include="code\shuriken.h" />
     <ClInclude Include="code\skybox.h" />
     <ClInclude Include="code\slow.h" />
     <ClInclude Include="code\smoke.h" />
@@ -334,8 +314,6 @@
     <ClInclude Include="code\texture.h" />
     <ClInclude Include="code\timer.h" />
     <ClInclude Include="code\title.h" />
-    <ClInclude Include="code\tunnel.h" />
-    <ClInclude Include="code\tutorial.h" />
     <ClInclude Include="code\UI.h" />
     <ClInclude Include="code\UIManager.h" />
     <ClInclude Include="code\universal.h" />

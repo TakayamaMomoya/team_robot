@@ -196,7 +196,7 @@ HRESULT CTitle::Init(void)
 	if (m_pBike != nullptr)
 	{
 		m_pBike->SetPosition(POS_BIKE);
-		m_pBike->SetMotion(CPlayer::MOTION::MOTION_NEUTRAL);
+		m_pBike->SetMotion(CPlayer::E_Motion::MOTION_NEUTRAL);
 	}
 
 	// プレイヤーモデルの設置
@@ -205,8 +205,8 @@ HRESULT CTitle::Init(void)
 	if (m_pPlayer != nullptr)
 	{
 		m_pPlayer->SetPosition(POS_PLAYER);
-		m_pPlayer->SetMotion(CPlayer::MOTION::MOTION_NEUTRAL);
-		m_pPlayer->InitPose(CPlayer::MOTION::MOTION_NEUTRAL);
+		m_pPlayer->SetMotion(CPlayer::E_Motion::MOTION_NEUTRAL);
+		m_pPlayer->InitPose(CPlayer::E_Motion::MOTION_NEUTRAL);
 		m_pPlayer->SetMatrix(m_pBike->GetMatrix());
 	}
 
@@ -560,8 +560,8 @@ CTitleMovePlayer::~CTitleMovePlayer()
 void CTitleMovePlayer::Update(CTitle* pTItle)
 {// 更新処理
 
-	if(pTItle->GetPlayer()->GetMotion() != CPlayer::MOTION_NINJA_SLASHDOWN)
-	   pTItle->GetPlayer()->SetMotion(CPlayer::MOTION_NINJA_SLASHDOWN);
+	if(pTItle->GetPlayer()->GetMotion() != CPlayer::E_Motion::MOTION_NEUTRAL)
+	   pTItle->GetPlayer()->SetMotion(CPlayer::E_Motion::MOTION_NEUTRAL);
 
 	// カメラ位置の設定
 	CCamera* pCamera = CManager::GetCamera();

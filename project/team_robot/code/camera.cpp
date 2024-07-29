@@ -259,4 +259,15 @@ void ControlRoll(float fDist, float fFact)
 
 	pInfoCamera->fRoll += (fDist - pInfoCamera->fRoll) * fFact;
 }
+
+// 目標地点までのスキップ
+void SkipToDest(void)
+{
+	CCamera *pCamera = CManager::GetCamera();
+
+	if (pCamera == nullptr)
+		return;
+
+	pCamera->SkipToDest();
+}
 }

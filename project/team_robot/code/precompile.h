@@ -44,5 +44,6 @@ using std::weak_ptr;
 using std::vector;
 using std::list;
 using std::map;
+using std::string;
 
 #endif // _PRECOMPILE_H_

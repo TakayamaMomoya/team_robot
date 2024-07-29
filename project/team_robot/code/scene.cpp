@@ -11,7 +11,6 @@
 #include "scene.h"
 #include "game.h"
 #include "title.h"
-#include "tutorial.h"
 #include "ranking.h"
 #include "manager.h"
 #include "renderer.h"

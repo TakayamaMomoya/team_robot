@@ -17,7 +17,6 @@
 #include "debugproc.h"
 #include "UIManager.h"
 #include "skybox.h"
-#include "animManager.h"
 #include "pause.h"
 #include "player.h"
 #include "slow.h"
@@ -65,9 +64,6 @@ HRESULT CGame::Init(void)
 
 	// スカイボックスの生成
 	CSkybox::Create();
-
-	// ３Dアニメーション管理の生成
-	CAnimManager::Create();
 
 	// BGM再生
 	Sound::Play(CSound::LABEL_BGM_GAME01);

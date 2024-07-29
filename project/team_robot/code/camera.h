@@ -85,6 +85,9 @@ void ChangeState(CCameraState *pBehavior);
 
 // ロールの調整
 void ControlRoll(float fDist, float fFact);
+
+// 目標地点までのスキップ
+void SkipToDest(void);
 }
 
 #endif
