@@ -10,42 +10,19 @@
 //*****************************************************
 #include "manager.h"
 #include "game.h"
-#include "object.h"
 #include "inputkeyboard.h"
-#include "inputManager.h"
 #include "fade.h"
 #include "camera.h"
 #include "sound.h"
-#include "scene.h"
 #include "debugproc.h"
 #include "UIManager.h"
-#include "polygon3D.h"
-#include "texture.h"
 #include "skybox.h"
-#include "block.h"
-#include "renderer.h"
-#include "animEffect3D.h"
+#include "animManager.h"
 #include "pause.h"
 #include "player.h"
 #include "slow.h"
 #include "blockManager.h"
-#include "meshfield.h"
 #include "CameraState.h"
-#include "particle.h"
-#include "timer.h"
-#include "meter.h"
-#include "meshRoad.h"
-#include "goal.h"
-#include "edit.h"
-#include "editMesh.h"
-#include "editMeshfield.h"
-#include "editBlock.h"
-#include "editGoal.h"
-#include "enemy.h"
-#include "meshCube.h"
-#include "enemySpawner.h"
-#include "tutorial.h"
-#include "blur.h"
 
 //*****************************************************
 // マクロ定義
@@ -90,53 +67,16 @@ HRESULT CGame::Init(void)
 	CSkybox::Create();
 
 	// ３Dアニメーション管理の生成
-	CAnimEffect3D::Create();
+	CAnimManager::Create();
 
 	// BGM再生
 	Sound::Play(CSound::LABEL_BGM_GAME01);
-
-	// フォグをかける
-	CRenderer *pRenderer = CRenderer::GetInstance();
-
-	if (pRenderer != nullptr)
-	{
-		pRenderer->EnableFog(true);
-	}
-
-	// 
-	CBlockManager::Create();
 
 	// プレイヤーの生成
 	CPlayer::Create();
 
 	// スロー管理の生成
 	CSlow::Create();
-
-	// メーター生成
-	CMeter::Create();
-
-	// ゴール生成
-	//CGoal::Create(D3DXVECTOR3(432987.3f, -1721.7f, -301192.4f), D3DX_PI);
-	CGoal::Create(D3DXVECTOR3(12726.0f, 2500.7f, -27695.0f), D3DX_PI);
-
-	// メッシュロード生成
-	CMeshRoad::Create(PATH_GAME_ROAD);
-
-	// チュートリアルの生成
-	CTutorial::Create();
-
-#ifdef _DEBUG
-	// メッシュキューブのテスト生成
-	CMeshCube::Create();
-#endif
-
-	// メッシュフィールドの生成
-	CMeshField *pMeshField = CMeshField::Create();
-
-	if (pMeshField != nullptr)
-	{
-		pMeshField->SetPosition(POS_MESHFIELD);
-	}
 
 	return S_OK;
 }
@@ -146,13 +86,6 @@ HRESULT CGame::Init(void)
 //=====================================================
 void CGame::Uninit(void)
 {
-	if (m_pEdit != nullptr)
-	{
-		m_pEdit->Uninit();
-		delete m_pEdit;
-		m_pEdit = nullptr;
-	}
-
 	// オブジェクト全棄
 	CObject::ReleaseAll();
 
@@ -164,12 +97,11 @@ void CGame::Uninit(void)
 //=====================================================
 void CGame::Update(void)
 {
-	CFade *pFade = CFade::GetInstance();
-	CInputManager *pInputManager = CInputManager::GetInstance();
-	CSound* pSound = CSound::GetInstance();
-
-	// シーンの更新
-	CScene::Update();
+	if (!m_bStop)
+	{
+		// シーンの更新
+		CScene::Update();
+	}
 
 	// カメラ更新
 	UpdateCamera();
@@ -243,26 +175,6 @@ void CGame::ToggleStop(void)
 }
 
 //=====================================================
-// エディターの変更
-//=====================================================
-void CGame::ChangeEdit(CEdit *pEdit)
-{
-	if (m_pEdit != nullptr)
-	{
-		m_pEdit->Uninit();
-		delete m_pEdit;
-		m_pEdit = nullptr;
-	}
-
-	m_pEdit = pEdit;
-
-	if (m_pEdit != nullptr)
-	{
-		m_pEdit->Init();
-	}
-}
-
-//=====================================================
 // デバッグ処理
 //=====================================================
 void CGame::Debug(void)
@@ -279,28 +191,6 @@ void CGame::Debug(void)
 	{// 停止状態の切り替え
 		ToggleStop();
 	}
-
-	if (pKeyboard->GetTrigger(DIK_F2))
-	{// エディット削除
-		ToggleStop();
-	}
-
-	ImGui::Text("[EditMode]");
-
-	if (ImGui::Button("MeshRoad", ImVec2(70, 30)))	// メッシュロードエディット
-		ChangeEdit(new CEditMesh);
-
-	if (ImGui::Button("MeshField", ImVec2(70, 30)))	// メッシュフィールドエディット
-		ChangeEdit(new CEditMeshfield);
-
-	if (ImGui::Button("Block", ImVec2(70, 30)))	// ブロックエディット
-		ChangeEdit(new CEditBlock);
-
-	if (ImGui::Button("Goal", ImVec2(70, 30)))	// ゴールエディット
-		ChangeEdit(new CEditGoal);
-
-	if (m_pEdit != nullptr)
-		m_pEdit->Update();
 }
 
 //=====================================================

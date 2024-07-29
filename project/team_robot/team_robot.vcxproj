@@ -167,7 +167,7 @@
     <ClCompile Include="code\afterimage.cpp" />
     <ClCompile Include="code\anim3D.cpp" />
     <ClCompile Include="code\animation2D.cpp" />
-    <ClCompile Include="code\animEffect3D.cpp" />
+    <ClCompile Include="code\animManager.cpp" />
     <ClCompile Include="code\backends\imgui_impl_dx9.cpp" />
     <ClCompile Include="code\backends\imgui_impl_win32.cpp" />
     <ClCompile Include="code\block.cpp" />
@@ -180,11 +180,6 @@
     <ClCompile Include="code\debris.cpp" />
     <ClCompile Include="code\debrisspawner.cpp" />
     <ClCompile Include="code\debugproc.cpp" />
-    <ClCompile Include="code\edit.cpp" />
-    <ClCompile Include="code\editBlock.cpp" />
-    <ClCompile Include="code\editGoal.cpp" />
-    <ClCompile Include="code\editMesh.cpp" />
-    <ClCompile Include="code\editMeshfield.cpp" />
     <ClCompile Include="code\effect2D.cpp" />
     <ClCompile Include="code\effect3D.cpp" />
     <ClCompile Include="code\enemySpawner.cpp" />
@@ -261,7 +256,7 @@
     <ClInclude Include="code\afterimage.h" />
     <ClInclude Include="code\anim3D.h" />
     <ClInclude Include="code\animation2D.h" />
-    <ClInclude Include="code\animEffect3D.h" />
+    <ClInclude Include="code\animManager.h" />
     <ClInclude Include="code\backends\imgui_impl_dx9.h" />
     <ClInclude Include="code\backends\imgui_impl_win32.h" />
     <ClInclude Include="code\block.h" />
@@ -274,11 +269,6 @@
     <ClInclude Include="code\debris.h" />
     <ClInclude Include="code\debrisSpawner.h" />
     <ClInclude Include="code\debugproc.h" />
-    <ClInclude Include="code\edit.h" />
-    <ClInclude Include="code\editBlock.h" />
-    <ClInclude Include="code\editGoal.h" />
-    <ClInclude Include="code\editMesh.h" />
-    <ClInclude Include="code\editMeshfield.h" />
     <ClInclude Include="code\effect2D.h" />
     <ClInclude Include="code\effect3D.h" />
     <ClInclude Include="code\enemySpawner.h" />

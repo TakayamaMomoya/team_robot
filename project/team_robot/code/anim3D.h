@@ -1,12 +1,11 @@
 //*****************************************************
 //
-// ３Dアニメーション処理[anim3D.h]
+// ３Dアニメーションポリゴン[anim3D.h]
 // Author:髙山桃也
 //
 //*****************************************************
-
-#ifndef _EXPLOSION_H_
-#define _EXPLOSION_H_
+#ifndef _ANIM3D_H_	// 二重インクルード防止
+#define _ANIM3D_H_
 
 //*****************************************************
 // インクルード
@@ -22,16 +21,21 @@ public:
 	CAnim3D(int nPriority = 6);	// コンストラクタ
 	~CAnim3D();	// デストラクタ
 
-	static CAnim3D *Create(D3DXVECTOR3 pos, int nNumAnim, int nTimeAnim, bool bLoop = false);
-	HRESULT Init(void);
-	void Uninit(void);
-	void Update(void);
-	void Draw(void);
+	// メンバ関数
+	HRESULT Init(void);	// 初期化処理
+	void Uninit(void);	// 終了処理
+	void Update(void);	// 更新処理
+	void Draw(void);	// 描画処理
 	void RandStart(void);	// アニメーションのスタートをランダムにする処理
 
-private:
-	void SetAnim(int nAnim, int nNumAnim);
+	// 静的メンバ変数
+	static CAnim3D *Create(D3DXVECTOR3 pos, int nNumAnim, int nTimeAnim, bool bLoop = false);	// 生成処理
 
+private:
+	// メンバ関数
+	void SetAnim(int nAnim, int nNumAnim);	// アニメーションの設定
+
+	// メンバ変数
 	int m_nCounterAnim;	// アニメーションカウンター
 	int m_nPatternAnim;	// アニメパターンNO.
 	int m_nSpeedAnim;	// アニメーション速度

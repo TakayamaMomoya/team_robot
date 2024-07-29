@@ -1,6 +1,6 @@
 //*****************************************************
 //
-// ３Dアニメーション処理[anim3D.cpp]
+// 3Dアニメーションポリゴン[anim3D.cpp]
 // Author:髙山桃也
 //
 //*****************************************************
@@ -13,18 +13,22 @@
 #include "renderer.h"
 #include "texture.h"
 #include "debugproc.h"
+#include "universal.h"
+
+//*****************************************************
+// 定数定義
+//*****************************************************
+namespace
+{
+const float DEFAULT_SIZE = 20.0f;	// デフォルトのサイズ
+}
 
 //=====================================================
 // コンストラクタ
 //=====================================================
-CAnim3D::CAnim3D(int nPriority) : CPolygon3D(nPriority)
+CAnim3D::CAnim3D(int nPriority) : CPolygon3D(nPriority), m_nCounterAnim(0), m_nPatternAnim(0), m_nSpeedAnim(0), m_nNumAnim(0), m_bFinish(false), m_bLoop(false)
 {
-	m_nCounterAnim = 0;
-	m_nPatternAnim = 0;
-	m_nSpeedAnim = 0;
-	m_nNumAnim = 0;
-	m_bFinish = false;
-	m_bLoop = false;
+
 }
 
 //=====================================================
@@ -36,15 +40,40 @@ CAnim3D::~CAnim3D()
 }
 
 //=====================================================
+// 生成処理
+//=====================================================
+CAnim3D *CAnim3D::Create(D3DXVECTOR3 pos, int nNumAnim, int nTimeAnim, bool bLoop)
+{
+	CAnim3D *pAnim3D = nullptr;
+
+	pAnim3D = new CAnim3D;
+
+	if (pAnim3D != nullptr)
+	{
+		pAnim3D->SetPosition(pos);
+		pAnim3D->SetSize(DEFAULT_SIZE, DEFAULT_SIZE);
+		pAnim3D->m_nNumAnim = nNumAnim;
+		pAnim3D->m_nSpeedAnim = nTimeAnim;
+		pAnim3D->m_bLoop = bLoop;
+
+		// 初期化処理
+		pAnim3D->Init();
+	}
+
+	return pAnim3D;
+}
+
+//=====================================================
 // 初期化処理
 //=====================================================
 HRESULT CAnim3D::Init(void)
 {
-	// 継承クラスの初期化
 	CPolygon3D::Init();
 
+	// アニメーションの初期化
 	SetAnim(m_nPatternAnim, m_nNumAnim);
 
+	// Zテストの有効化
 	EnableZtest(true);
 
 	return S_OK;
@@ -107,30 +136,6 @@ void CAnim3D::Draw(void)
 
 	// ライティングを戻す
 	pDevice->SetRenderState(D3DRS_LIGHTING, TRUE);
-}
-
-//=====================================================
-// 生成処理
-//=====================================================
-CAnim3D *CAnim3D::Create(D3DXVECTOR3 pos, int nNumAnim, int nTimeAnim, bool bLoop)
-{
-	CAnim3D *pAnim3D = nullptr;
-
-	pAnim3D = new CAnim3D;
-
-	if (pAnim3D != nullptr)
-	{
-		pAnim3D->SetPosition(pos);
-		pAnim3D->SetSize(20.0f, 20.0f);
-		pAnim3D->m_nNumAnim = nNumAnim;
-		pAnim3D->m_nSpeedAnim = nTimeAnim;
-		pAnim3D->m_bLoop = bLoop;
-
-		// 初期化処理
-		pAnim3D->Init();
-	}
-
-	return pAnim3D;
 }
 
 //=====================================================

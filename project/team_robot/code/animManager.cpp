@@ -1,6 +1,6 @@
 //*****************************************************
 //
-// ３Dアニメーションエフェクト処理[animEffect3D.cpp]
+// アニメーションマネージャー[animManager.cpp]
 // Author:髙山桃也
 //
 //*****************************************************
@@ -8,7 +8,7 @@
 //*****************************************************
 // インクルード
 //*****************************************************
-#include "animEffect3D.h"
+#include "animManager.h"
 #include "manager.h"
 #include "renderer.h"
 #include "texture.h"
@@ -17,7 +17,7 @@
 //*****************************************************
 // 静的メンバ変数宣言
 //*****************************************************
-CAnimEffect3D *CAnimEffect3D::m_pAnimEffect3D = nullptr;	// 自身のポインタ
+CAnimManager *CAnimManager::s_pAnimEffect3D = nullptr;	// 自身のポインタ
 
 //*****************************************************
 // マクロ定義
@@ -27,18 +27,15 @@ CAnimEffect3D *CAnimEffect3D::m_pAnimEffect3D = nullptr;	// 自身のポインタ
 //=====================================================
 // コンストラクタ
 //=====================================================
-CAnimEffect3D::CAnimEffect3D(int nPriority) : CObject(nPriority)
+CAnimManager::CAnimManager(int nPriority) : CObject(nPriority), m_apAnimEffect{}
 {
-	for (int i = 0; i < TYPE_MAX; i++)
-	{
-		m_apAnimEffect[i] = nullptr;
-	}
+
 }
 
 //=====================================================
 // デストラクタ
 //=====================================================
-CAnimEffect3D::~CAnimEffect3D()
+CAnimManager::~CAnimManager()
 {
 
 }
@@ -46,7 +43,7 @@ CAnimEffect3D::~CAnimEffect3D()
 //=====================================================
 // 初期化処理
 //=====================================================
-HRESULT CAnimEffect3D::Init(void)
+HRESULT CAnimManager::Init(void)
 {
 	// 読込
 	Load();
@@ -57,9 +54,8 @@ HRESULT CAnimEffect3D::Init(void)
 //=====================================================
 // 読込処理
 //=====================================================
-void CAnimEffect3D::Load(void)
+void CAnimManager::Load(void)
 {
-	// 変数宣言
 	char cTemp[256];
 	int nCntEffect = 0;
 
@@ -78,9 +74,9 @@ void CAnimEffect3D::Load(void)
 				if (m_apAnimEffect[nCntEffect] == nullptr)
 				{
 					// インスタンス生成
-					m_apAnimEffect[nCntEffect] = new SInfoAnimEffect;
+					m_apAnimEffect[nCntEffect] = new S_InfoAnimEffect;
 
-					ZeroMemory(m_apAnimEffect[nCntEffect],sizeof(SInfoAnimEffect));
+					ZeroMemory(m_apAnimEffect[nCntEffect],sizeof(S_InfoAnimEffect));
 				}
 
 				while (true)
@@ -203,9 +199,9 @@ void CAnimEffect3D::Load(void)
 //=====================================================
 // 終了処理
 //=====================================================
-void CAnimEffect3D::Uninit(void)
+void CAnimManager::Uninit(void)
 {
-	m_pAnimEffect3D = nullptr;
+	s_pAnimEffect3D = nullptr;
 
 	for (int i = 0; i < TYPE_MAX; i++)
 	{
@@ -222,7 +218,7 @@ void CAnimEffect3D::Uninit(void)
 //=====================================================
 // 更新処理
 //=====================================================
-void CAnimEffect3D::Update(void)
+void CAnimManager::Update(void)
 {
 
 }
@@ -230,7 +226,7 @@ void CAnimEffect3D::Update(void)
 //=====================================================
 // 描画処理
 //=====================================================
-void CAnimEffect3D::Draw(void)
+void CAnimManager::Draw(void)
 {
 
 }
@@ -238,26 +234,26 @@ void CAnimEffect3D::Draw(void)
 //=====================================================
 // 生成処理
 //=====================================================
-CAnimEffect3D *CAnimEffect3D::Create(void)
+CAnimManager *CAnimManager::Create(void)
 {
-	if (m_pAnimEffect3D == nullptr)
+	if (s_pAnimEffect3D == nullptr)
 	{
-		m_pAnimEffect3D = new CAnimEffect3D;
+		s_pAnimEffect3D = new CAnimManager;
 
-		if (m_pAnimEffect3D != nullptr)
+		if (s_pAnimEffect3D != nullptr)
 		{
 			// 初期化処理
-			m_pAnimEffect3D->Init();
+			s_pAnimEffect3D->Init();
 		}
 	}
 
-	return m_pAnimEffect3D;
+	return s_pAnimEffect3D;
 }
 
 //=====================================================
 // アニメーションの生成
 //=====================================================
-CAnim3D *CAnimEffect3D::CreateEffect(D3DXVECTOR3 pos, TYPE type)
+CAnim3D *CAnimManager::CreateEffect(D3DXVECTOR3 pos, E_TYPE type)
 {
 	if ((type >= TYPE_MAX || type < 0 ) &&
 		m_apAnimEffect[type] != nullptr)
@@ -299,9 +295,9 @@ CAnim3D *CAnimEffect3D::CreateEffect(D3DXVECTOR3 pos, TYPE type)
 
 namespace Anim3D
 {
-CAnim3D *CreateAnim(D3DXVECTOR3 pos, CAnimEffect3D::TYPE type)
+CAnim3D *CreateAnim(D3DXVECTOR3 pos, CAnimManager::E_TYPE type)
 {
-	CAnimEffect3D *pManager = CAnimEffect3D::GetInstance();
+	CAnimManager *pManager = CAnimManager::GetInstance();
 
 	if (pManager == nullptr)
 		return nullptr;
