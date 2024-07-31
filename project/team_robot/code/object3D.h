@@ -41,6 +41,7 @@ private:
 	// メンバ変数
 	D3DXMATRIX m_mtxWorld;	// ワールドマトリックス
 	D3DXMATRIX m_mtxParent;	// 親マトリックス
+	D3DXQUATERNION m_quat;	// 累積クォータニオン
 };
 
 #endif

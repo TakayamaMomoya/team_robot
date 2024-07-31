@@ -10,6 +10,7 @@
 //*****************************************************
 #include "object3D.h"
 #include "renderer.h"
+#include "debugproc.h"
 
 //=====================================================
 // 優先順位を決めるコンストラクタ
@@ -32,8 +33,12 @@ CObject3D::~CObject3D()
 //=====================================================
 HRESULT CObject3D::Init(void)
 {
+	D3DXMatrixIdentity(&m_mtxWorld);
+
 	// 親マトリックスの初期化
 	ResetMtxParent();
+
+	D3DXQuaternionIdentity(&m_quat);
 
 	return S_OK;
 }
@@ -59,17 +64,59 @@ void CObject3D::Update(void)
 //=====================================================
 void CObject3D::Draw(void)
 {
-	LPDIRECT3DDEVICE9 pDevice = Renderer::GetDevice();
+	// デバイスの取得
+	LPDIRECT3DDEVICE9 pDevice = CRenderer::GetInstance()->GetDevice();
+
+	// 変数宣言
 	D3DXMATRIX mtxRot, mtxTrans;
+
+	// クォータニオン用のオフセット
+	D3DXMATRIX mtxUp;
+	universal::SetOffSet(&mtxUp, m_mtxWorld, D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	D3DXVECTOR3 vecUp = { mtxUp._41 - m_mtxWorld._41,mtxUp._42 - m_mtxWorld._42 ,mtxUp._43 - m_mtxWorld._43 };
 
 	// ワールドマトリックス初期化
 	D3DXMatrixIdentity(&m_mtxWorld);
 
-	// 向きを反映
 	D3DXVECTOR3 rot = GetRotation();
-	D3DXMatrixRotationYawPitchRoll(&mtxRot,
-		rot.y, rot.x, rot.z);
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxRot);
+
+	// Y回転
+	D3DXQUATERNION quatUp;
+	D3DXQuaternionRotationAxis(
+		&quatUp, &vecUp, rot.y);
+	D3DXQuaternionNormalize(&quatUp, &quatUp); // クォータニオンの正規化
+	D3DXQuaternionMultiply(&m_quat, &m_quat, &quatUp);	// クォータニオンの累積
+
+	// クォータニオンを反映させる
+	D3DXMatrixRotationQuaternion(
+		&m_mtxWorld, &m_quat);	// クォータニオンでの回転
+
+	// X回転
+	D3DXMATRIX mtxRight;
+	universal::SetOffSet(&mtxRight, m_mtxWorld, D3DXVECTOR3(1.0f, 0.0f, 0.0f));
+	D3DXVECTOR3 vecRight = { mtxRight._41 - m_mtxWorld._41,mtxRight._42 - m_mtxWorld._42 ,mtxRight._43 - m_mtxWorld._43 };
+
+	D3DXQUATERNION quatRight;
+	D3DXQuaternionRotationAxis(
+		&quatRight, &vecRight, rot.x);
+	D3DXQuaternionNormalize(&quatRight, &quatRight); // クォータニオンの正規化
+	D3DXQuaternionMultiply(&m_quat, &m_quat, &quatRight);	// クォータニオンの累積
+
+	// クォータニオンを反映させる
+	D3DXMatrixRotationQuaternion(
+		&m_mtxWorld, &m_quat);	// クォータニオンでの回転
+
+	// Z軸回転
+	D3DXVECTOR3 vecFront = { m_mtxWorld._31, m_mtxWorld._32, m_mtxWorld._33 };
+	D3DXQUATERNION quatFront;
+	D3DXQuaternionRotationAxis(
+		&quatFront, &vecFront, rot.z);	// クォータニオンを作成
+	D3DXQuaternionNormalize(&quatFront, &quatFront); // クォータニオンの正規化
+	D3DXQuaternionMultiply(&m_quat, &m_quat, &quatFront);	// クォータニオンの累積
+
+	// クォータニオンを反映させる
+	D3DXMatrixRotationQuaternion(
+		&m_mtxWorld, &m_quat);	// クォータニオンでの回転
 
 	// 位置を反映
 	D3DXVECTOR3 pos = GetPosition();
@@ -77,11 +124,10 @@ void CObject3D::Draw(void)
 		pos.x, pos.y, pos.z);
 	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &mtxTrans);
 
-	// 親マトリックスをかけ合わせる
-	D3DXMatrixMultiply(&m_mtxWorld, &m_mtxWorld, &m_mtxParent);
-
 	// ワールドマトリックス設定
 	pDevice->SetTransform(D3DTS_WORLD, &m_mtxWorld);
+
+	SetRotation(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
 }
 
 //=====================================================

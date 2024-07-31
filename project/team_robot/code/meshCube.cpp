@@ -88,8 +88,8 @@ HRESULT CMeshCube::Init(void)
 	{
 		{ 0.0f, 0.0f, 0.0f },
 		{ D3DX_PI, 0.0f, 0.0f },
-		{ D3DX_PI * 0.5f, D3DX_PI * 0.5f, 0.0f },
-		{ D3DX_PI * 0.5f, D3DX_PI * -0.5f, 0.0f },
+		{ D3DX_PI * 0.5f, 0.0f, D3DX_PI * -0.5f },
+		{ D3DX_PI * 0.5f, 0.0f, D3DX_PI * 0.5f },
 		{ D3DX_PI * 0.5f, -D3DX_PI, 0.0f },
 		{ D3DX_PI * -0.5f, D3DX_PI, 0.0f }
 	};
@@ -117,6 +117,8 @@ HRESULT CMeshCube::Init(void)
 		int nidx = Texture::GetIdx(&aPathTexture[i][0]);
 
 		m_apPolygon3D[i]->SetIdxTexture(nidx);
+
+		m_apPolygon3D[i]->CObject3D::Draw();
 	}
 
 	SetPosition(D3DXVECTOR3(0.0f, 0.0f, 10.0f));

@@ -63,9 +63,6 @@ HRESULT CGame::Init(void)
 	// UIマネージャーの追加
 	CUIManager::Create();
 
-	// スカイボックスの生成
-	CSkybox::Create();
-
 	// BGM再生
 	Sound::Play(CSound::LABEL_BGM_GAME01);
 
