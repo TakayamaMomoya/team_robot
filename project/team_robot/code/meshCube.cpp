@@ -12,6 +12,8 @@
 #include "polygon3D.h"
 #include "effect3D.h"
 #include "debugproc.h"
+#include "inputkeyboard.h"
+#include "texture.h"
 
 //*****************************************************
 // 定数定義
@@ -19,7 +21,7 @@
 namespace
 {
 	const int NUM_POLYGON = 6;	// ポリゴンの数
-	const float SIZE_DEFAULT = 500.0f;	// デフォルトサイズ
+	const float SIZE_DEFAULT = 100000.0f;	// デフォルトサイズ
 }
 
 //=====================================================
@@ -92,6 +94,16 @@ HRESULT CMeshCube::Init(void)
 		{ D3DX_PI * -0.5f, D3DX_PI, 0.0f }
 	};
 
+	string aPathTexture[E_Rot::ROT_MAX] =
+	{
+		"data\\TEXTURE\\BG\\skybox00\\Up.png",
+		"data\\TEXTURE\\BG\\skybox00\\down.png",
+		"data\\TEXTURE\\BG\\skybox00\\left.png",
+		"data\\TEXTURE\\BG\\skybox00\\right.png",
+		"data\\TEXTURE\\BG\\skybox00\\front.png",
+		"data\\TEXTURE\\BG\\skybox00\\back.png",
+	};
+
 	for ( int i = 0; i < E_Rot::ROT_MAX; i++ )
 	{
 		m_apPolygon3D[i] = CPolygon3D::Create(D3DXVECTOR3(0.0f, 0.0f, 0.0f));
@@ -99,10 +111,15 @@ HRESULT CMeshCube::Init(void)
 		m_apPolygon3D[i]->SetSize(SIZE_DEFAULT, SIZE_DEFAULT);
 		m_apPolygon3D[i]->SetPosition(aPos[i]);
 		m_apPolygon3D[i]->SetRotation(aRot[i]);
+		m_apPolygon3D[i]->EnableLighting(false);
+		m_apPolygon3D[i]->EnableCull(false);
+
+		int nidx = Texture::GetIdx(&aPathTexture[i][0]);
+
+		m_apPolygon3D[i]->SetIdxTexture(nidx);
 	}
 
-	// 法線の設定
-	SetNormal();
+	SetPosition(D3DXVECTOR3(0.0f, 0.0f, 10.0f));
 
 	return S_OK;
 }
@@ -130,15 +147,13 @@ void CMeshCube::Uninit(void)
 //=====================================================
 void CMeshCube::Update(void)
 {
+	// 親子付けの設定
 	D3DXMATRIX mtx = GetMatrix();
 
 	for (auto it : m_apPolygon3D)
 	{
 		it->SetMatrixParent(mtx);
 	}
-
-	// 法線の設定
-	SetNormal();
 }
 
 //=====================================================
