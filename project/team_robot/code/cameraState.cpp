@@ -310,41 +310,6 @@ void CCameraStateTitle::Update(CCamera* pCamera)
 	CDebugProc::GetInstance()->Print("\n角度  [%f, %f, %f]", pInfoCamera->rot.x, pInfoCamera->rot.y, pInfoCamera->rot.z);
 }
 
-//=====================================================
-// 更新
-//=====================================================
-void CCameraStateFollowPlayerTitle::Update(CCamera* pCamera)
-{
-	if (pCamera == nullptr)
-		return;
-
-	CCamera::Camera* pInfoCamera = pCamera->GetCamera();
-	CMotion *pPlayer = CTitle::GetBike();
-
-	if (pPlayer == nullptr)
-		return;
-
-	D3DXVECTOR3 pos = pPlayer->GetMtxPos(0);
-
-	universal::FactingRot(&pInfoCamera->rot.y, pPlayer->GetRotation().y + D3DX_PI, 0.1f);
-
-	universal::LimitRot(&pInfoCamera->rot.y);
-
-	D3DXMATRIX* pMtx = &pPlayer->GetMatrix();
-
-	D3DXVECTOR3 vecAddPosR = { pMtx->_31, pMtx->_32, pMtx->_33 };
-
-	pInfoCamera->posRDest = pos + vecAddPosR;
-
-	pInfoCamera->posRDest.y += 50.0f;	// 一旦むりやりちょっと高くする
-
-	// 目標の視点設定
-	D3DXVECTOR3 vecPole = universal::PolarCoordinates(pInfoCamera->rot);
-	pInfoCamera->posVDest = pos + vecPole * pInfoCamera->fLength;
-
-	pCamera->MoveDist(FACT_CORRECT_POS);
-}
-
 //**************************************************************************
 // リザルト
 //**************************************************************************

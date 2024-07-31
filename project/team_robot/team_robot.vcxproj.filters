@@ -70,9 +70,6 @@
     <ClCompile Include="code\blurEvent.cpp">
       <Filter>VFX</Filter>
     </ClCompile>
-    <ClCompile Include="code\character.cpp">
-      <Filter>character</Filter>
-    </ClCompile>
     <ClCompile Include="code\effect2D.cpp">
       <Filter>VFX</Filter>
     </ClCompile>
@@ -166,12 +163,6 @@
     <ClCompile Include="code\object3D.cpp">
       <Filter>base</Filter>
     </ClCompile>
-    <ClCompile Include="code\polygon2D.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
-    <ClCompile Include="code\polygon3D.cpp">
-      <Filter>base</Filter>
-    </ClCompile>
     <ClCompile Include="code\precompile.cpp">
       <Filter>base</Filter>
     </ClCompile>
@@ -219,6 +210,12 @@
     </ClCompile>
     <ClCompile Include="code\timer.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="code\polygon2D.cpp">
+      <Filter>mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="code\polygon3D.cpp">
+      <Filter>mesh</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -296,9 +293,6 @@
     </ClInclude>
     <ClInclude Include="code\blur.h">
       <Filter>VFX</Filter>
-    </ClInclude>
-    <ClInclude Include="code\character.h">
-      <Filter>character</Filter>
     </ClInclude>
     <ClInclude Include="code\effect2D.h">
       <Filter>VFX</Filter>
@@ -393,12 +387,6 @@
     <ClInclude Include="code\object3D.h">
       <Filter>base</Filter>
     </ClInclude>
-    <ClInclude Include="code\polygon2D.h">
-      <Filter>base</Filter>
-    </ClInclude>
-    <ClInclude Include="code\polygon3D.h">
-      <Filter>base</Filter>
-    </ClInclude>
     <ClInclude Include="code\precompile.h">
       <Filter>base</Filter>
     </ClInclude>
@@ -446,6 +434,12 @@
     </ClInclude>
     <ClInclude Include="code\timer.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="code\polygon2D.h">
+      <Filter>mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="code\polygon3D.h">
+      <Filter>mesh</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

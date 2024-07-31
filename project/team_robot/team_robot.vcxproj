@@ -175,7 +175,6 @@
     <ClCompile Include="code\blurEvent.cpp" />
     <ClCompile Include="code\camera.cpp" />
     <ClCompile Include="code\cameraState.cpp" />
-    <ClCompile Include="code\character.cpp" />
     <ClCompile Include="code\debris.cpp" />
     <ClCompile Include="code\debrisspawner.cpp" />
     <ClCompile Include="code\debugproc.cpp" />
@@ -253,7 +252,6 @@
     <ClInclude Include="code\blurEvent.h" />
     <ClInclude Include="code\camera.h" />
     <ClInclude Include="code\cameraState.h" />
-    <ClInclude Include="code\character.h" />
     <ClInclude Include="code\debris.h" />
     <ClInclude Include="code\debrisSpawner.h" />
     <ClInclude Include="code\debugproc.h" />

@@ -51,7 +51,7 @@ void CObject3D::Uninit(void)
 //=====================================================
 void CObject3D::Update(void)
 {
-
+	CGameObject::Update();
 }
 
 //=====================================================
@@ -90,4 +90,28 @@ void CObject3D::Draw(void)
 void CObject3D::ResetMtxParent(void)
 {
 	D3DXMatrixIdentity(&m_mtxParent);
+}
+
+//=====================================================
+// 前方ベクトルの取得
+//=====================================================
+D3DXVECTOR3 CObject3D::GetForward(void)
+{
+	return D3DXVECTOR3( m_mtxWorld._31, m_mtxWorld._32, m_mtxWorld._33 );
+}
+
+//=====================================================
+// 上方ベクトルの取得
+//=====================================================
+D3DXVECTOR3 CObject3D::GetUp(void)
+{
+	return D3DXVECTOR3( m_mtxWorld._21, m_mtxWorld._22, m_mtxWorld._23 );
+}
+
+//=====================================================
+// 右方ベクトルの取得
+//=====================================================
+D3DXVECTOR3 CObject3D::GetRight(void)
+{
+	return D3DXVECTOR3( m_mtxWorld._11, m_mtxWorld._12, m_mtxWorld._13 );
 }

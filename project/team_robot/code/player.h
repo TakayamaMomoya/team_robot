@@ -4,7 +4,6 @@
 // Author:髙山桃也
 //
 //*****************************************************
-
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
@@ -16,12 +15,6 @@
 //*****************************************************
 // 前方宣言
 //*****************************************************
-class CBlockGrab;
-class CPolygon3D;
-class CPlayerNinja;
-class CMeshRoad;
-class COrbit;
-class CEffekseerEffect;
 
 //*****************************************************
 // クラスの定義
@@ -39,7 +32,7 @@ public:
 
 	// 構造体定義
 	struct S_Param
-	{
+	{// パラメーター
 		string m_stPathBody = "";	// 見た目のバス
 	};
 

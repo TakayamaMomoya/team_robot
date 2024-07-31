@@ -33,6 +33,9 @@ public:
 	void SetMatrix(D3DXMATRIX mtx) { m_mtxWorld = mtx; }
 	D3DXMATRIX GetMatrixParent(void) { return m_mtxParent; }	// 親マトリックス
 	void SetMatrixParent(D3DXMATRIX mtx) { m_mtxParent = mtx; }
+	D3DXVECTOR3 GetForward(void);	// マトリックスから前方ベクトルを取得
+	D3DXVECTOR3 GetUp(void);	// マトリックスから上方ベクトルを取得
+	D3DXVECTOR3 GetRight(void);	// マトリックスから右方ベクトルを取得
 
 private:
 	// メンバ変数

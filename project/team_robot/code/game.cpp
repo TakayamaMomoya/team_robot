@@ -22,6 +22,7 @@
 #include "slow.h"
 #include "blockManager.h"
 #include "CameraState.h"
+#include "meshCube.h"
 
 //*****************************************************
 // マクロ定義
@@ -73,6 +74,9 @@ HRESULT CGame::Init(void)
 
 	// スロー管理の生成
 	CSlow::Create();
+
+	// メッシュキューブ生成
+	CMeshCube::Create();
 
 	return S_OK;
 }
