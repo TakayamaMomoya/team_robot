@@ -4,19 +4,18 @@
 // Author:髙山桃也
 //
 //*****************************************************
-
 #ifndef _SKYBOX_H_
 #define _SKYBOX_H_
 
 //*****************************************************
 // インクルード
 //*****************************************************
-#include "objectX.h"
+#include "meshCube.h"
 
 //*****************************************************
 // クラスの定義
 //*****************************************************
-class CSkybox : public CObjectX
+class CSkybox : public CMeshCube
 {
 public:
 	CSkybox(int nPriority = 2);	// コンストラクタ
@@ -27,8 +26,10 @@ public:
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
+
+	// 静的メンバ関数
 	static CSkybox *Create();
-	static CSkybox *GetInstance();	// インスタンスの取得
+	static CSkybox *GetInstance() { return m_pSkybox; };	// インスタンスの取得
 
 private:
 	// メンバ関数

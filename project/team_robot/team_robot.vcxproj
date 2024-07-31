@@ -211,6 +211,7 @@
     <ClCompile Include="code\number3D.cpp" />
     <ClCompile Include="code\object.cpp" />
     <ClCompile Include="code\object3D.cpp" />
+    <ClCompile Include="code\playercontroller.cpp" />
     <ClCompile Include="code\polygon2D.cpp" />
     <ClCompile Include="code\polygon3D.cpp" />
     <ClCompile Include="code\objectX.cpp" />
@@ -290,6 +291,7 @@
     <ClInclude Include="code\number3D.h" />
     <ClInclude Include="code\object.h" />
     <ClInclude Include="code\object3D.h" />
+    <ClInclude Include="code\playercontroller.h" />
     <ClInclude Include="code\polygon2D.h" />
     <ClInclude Include="code\polygon3D.h" />
     <ClInclude Include="code\objectX.h" />

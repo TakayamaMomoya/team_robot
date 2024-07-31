@@ -36,6 +36,7 @@ CPlayer *CPlayer::s_pPlayer = nullptr;	// 自身のポインタ
 CPlayer::CPlayer(int nPriority)
 {
 	s_pPlayer = this;
+	m_pController = nullptr;
 }
 
 //=====================================================
@@ -92,6 +93,14 @@ HRESULT CPlayer::Init(void)
 	Camera::ChangeState(new CFollowPlayer);
 	Camera::SkipToDest();	// 目標位置までカメラを飛ばす
 
+	// コントローラーの生成
+	m_pController = new CPlayerController;
+
+	if (m_pController != nullptr)
+	{
+		m_pController->Init();
+	}
+
 	return S_OK;
 }
 
@@ -138,6 +147,12 @@ void CPlayer::Uninit(void)
 {
 	s_pPlayer = nullptr;
 
+	if (m_pController != nullptr)
+	{
+		m_pController->Uninit();
+		m_pController = nullptr;
+	}
+
 	// 継承クラスの終了
 	CMotion::Uninit();
 }
@@ -154,6 +169,15 @@ void CPlayer::Update(void)
 	D3DXVECTOR3 pos = GetPosition();
 	SetPositionOld(pos);
 
+	// 移動量の減衰
+	D3DXVECTOR3 move = GetMove();
+	move *= 0.98f;
+	SetMove(move);
+
+	// 移動量を位置に反映
+	pos += move;
+	SetPosition(pos);
+
 	// 継承クラスの更新
 	CMotion::Update();
 
@@ -168,17 +192,14 @@ void CPlayer::Update(void)
 //=====================================================
 void CPlayer::Input(void)
 {
-	// 移動操作
-	InputMove();
-
 	CInputManager *pInputManager = CInputManager::GetInstance();
 
-	if (pInputManager != nullptr)
+	if (pInputManager == nullptr)
+		return;
+
+	if (pInputManager->GetTrigger(CInputManager::BUTTON_PAUSE))
 	{// ポーズの発生
-		if (pInputManager->GetTrigger(CInputManager::BUTTON_PAUSE))
-		{
-			CPause::Create();
-		}
+		CPause::Create();
 	}
 }
 

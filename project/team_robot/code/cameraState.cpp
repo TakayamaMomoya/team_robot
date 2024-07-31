@@ -26,10 +26,10 @@ namespace
 {
 const float MOVE_SPEED = 21.0f;	//移動スピード
 const float ROLL_SPEED = 0.04f;	//回転スピード
-const float FACT_CORRECT_POS = 0.2f;	// 位置補正係数
+const float FACT_CORRECT_POS = 0.4f;	// 位置補正係数
 const float FACT_CORRECT_CONTOROLLL = 0.9f;	// 操作時の位置補正係数
 const float LENGTH_FOLLOW = 412.0f;	// 追従時のカメラ距離
-const float ANGLE_FOLLOW = 0.73f;	// 追従時のカメラ角度
+const float ANGLE_FOLLOW = D3DX_PI * 0.45f;	// 追従時のカメラ角度
 const float LENGTHPOSR_FOLLOW = 4126.0f;	// 追従時の先を見る距離
 const float FOV_FOLLOW = 93.0f;	// 追従時の視野角
 const float SPEED_MOVE_ABOVE = 20.0f;	// 上空視点時の移動速度
@@ -43,7 +43,7 @@ const D3DXVECTOR3 POS_RESULT = { 12726.0f, 2500.7f, -27695.0f };	// リザルト演出
 //=====================================================
 // コンストラクタ
 //=====================================================
-CFollowPlayer::CFollowPlayer() : m_fTimerPosR(0.0f), m_fLengthPosR(0.0f),m_bDebug(false)
+CFollowPlayer::CFollowPlayer()
 {
 	CCamera *pCamera = CManager::GetCamera();
 
@@ -55,8 +55,6 @@ CFollowPlayer::CFollowPlayer() : m_fTimerPosR(0.0f), m_fLengthPosR(0.0f),m_bDebu
 
 		pInfoCamera->rot.x = ANGLE_FOLLOW;
 	}
-
-	m_fLengthPosR = LENGTHPOSR_FOLLOW;
 }
 
 //=====================================================
@@ -75,89 +73,25 @@ void CFollowPlayer::Update(CCamera *pCamera)
 		return;
 	}
 
-	D3DXVECTOR3 pos = pPlayer->GetMtxPos(0);
+	D3DXVECTOR3 pos = pPlayer->GetMtxPos(2);
+	D3DXMATRIX mtx = pPlayer->GetMatrix();
 
-	m_fTimerPosR = 0.0f;
+	pInfoCamera->posRDest = pos;
 
-	universal::FactingRot(&pInfoCamera->rot.y, pPlayer->GetRotation().y + D3DX_PI, 0.1f);
+	D3DXMATRIX mtxOffset;
+	universal::SetOffSet(&mtxOffset, mtx, D3DXVECTOR3(0.0f, 400.0f, 400.0f));
 
-	universal::LimitRot(&pInfoCamera->rot.y);
+	D3DXVECTOR3 posCameraDest = { mtxOffset._41,mtxOffset._42,mtxOffset._43 };
 
-	D3DXMATRIX *pMtx = &pPlayer->GetMatrix();
+	//目標の視点設定
+	pInfoCamera->posVDest = posCameraDest;
 
-	D3DXVECTOR3 vecAddPosR = { pMtx->_31, pMtx->_32, pMtx->_33 };
-
-	pInfoCamera->posRDest = pos + vecAddPosR * m_fLengthPosR;
-
-	pInfoCamera->posRDest.y += 50.0f;	// 一旦むりやりちょっと高くする
-
-	// 目標の視点設定
-	D3DXVECTOR3 vecPole = universal::PolarCoordinates(pInfoCamera->rot);
-	pInfoCamera->posVDest = pos + vecPole * pInfoCamera->fLength;
+	D3DXMATRIX mtxUp;
+	universal::SetOffSet(&mtxUp, mtx, D3DXVECTOR3(0.0f, 1.0f, 0.0f));
+	D3DXVECTOR3 vecUp = { mtxUp._41 - mtx._41,mtxUp._42 - mtx._42 ,mtxUp._43 - mtx._43 };
+	pInfoCamera->vecU = vecUp;
 
 	pCamera->MoveDist(FACT_CORRECT_POS);
-
-	m_rotROld = pInfoCamera->rot;
-
-#ifdef _DEBUG
-	CEffect3D::Create(pInfoCamera->posRDest, 20.0f, 1, D3DXCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
-
-	CInputKeyboard *pKeyboard = CInputKeyboard::GetInstance();
-
-	if (pKeyboard != nullptr)
-	{
-		if (pKeyboard->GetPress(DIK_U))
-			pInfoCamera->fViewAngle += 5.5f;
-		if (pKeyboard->GetPress(DIK_J))
-			pInfoCamera->fViewAngle -= 5.5f;
-
-		if (pKeyboard->GetPress(DIK_Y))
-			pInfoCamera->fLength += 10.5f;
-		if (pKeyboard->GetPress(DIK_H))
-			pInfoCamera->fLength -= 10.5f;
-
-		if (pKeyboard->GetPress(DIK_T))
-			pInfoCamera->rot.x += 0.03f;
-		if (pKeyboard->GetPress(DIK_G))
-			pInfoCamera->rot.x -= 0.03f;
-
-		if (pKeyboard->GetPress(DIK_N))
-			m_fLengthPosR += 10.5f;
-		if (pKeyboard->GetPress(DIK_M))
-			m_fLengthPosR -= 10.5f;
-
-		if (pKeyboard->GetTrigger(DIK_K))
-		{
-			if (m_bDebug)
-			{
-				pInfoCamera->fViewAngle = FOV_FOLLOW;
-				pInfoCamera->fLength = LENGTH_FOLLOW;
-				pInfoCamera->rot.x = ANGLE_FOLLOW;
-				m_fLengthPosR = LENGTHPOSR_FOLLOW;
-
-				m_bDebug = false;
-			}
-			else
-			{
-				pInfoCamera->fViewAngle = 65.0f;
-				pInfoCamera->fLength = 1462.0f;
-				pInfoCamera->rot.x = 1.18f;
-				m_fLengthPosR = 241.0f;
-
-				m_bDebug = true;
-			}
-		}
-
-#if 0
-		CDebugProc::GetInstance()->Print("\n[調整カメラ値]");
-		CDebugProc::GetInstance()->Print("\n視野角[%f]", pInfoCamera->fViewAngle);
-		CDebugProc::GetInstance()->Print("\nカメラ距離[%f]", pInfoCamera->fLength);
-		CDebugProc::GetInstance()->Print("\n角度[%f]", pInfoCamera->rot.x);
-		CDebugProc::GetInstance()->Print("\n先を見る距離[%f]", m_fLengthPosR);
-		CDebugProc::GetInstance()->Print("\n[調整カメラ値]");
-#endif
-	}
-#endif
 }
 
 //=====================================================
@@ -334,5 +268,3 @@ void CCameraStateResult::Update(CCamera* pCamera)
 	pInfoCamera->posR = POS_RESULT;
 	pCamera->SetPosV();
 }
-
-

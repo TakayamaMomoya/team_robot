@@ -202,9 +202,6 @@
     <ClCompile Include="code\parts.cpp">
       <Filter>model</Filter>
     </ClCompile>
-    <ClCompile Include="code\skybox.cpp">
-      <Filter>model</Filter>
-    </ClCompile>
     <ClCompile Include="code\texture.cpp">
       <Filter>base</Filter>
     </ClCompile>
@@ -216,6 +213,12 @@
     </ClCompile>
     <ClCompile Include="code\polygon3D.cpp">
       <Filter>mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="code\playercontroller.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="code\skybox.cpp">
+      <Filter>gameobject</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -426,9 +429,6 @@
     <ClInclude Include="code\parts.h">
       <Filter>model</Filter>
     </ClInclude>
-    <ClInclude Include="code\skybox.h">
-      <Filter>model</Filter>
-    </ClInclude>
     <ClInclude Include="code\texture.h">
       <Filter>base</Filter>
     </ClInclude>
@@ -440,6 +440,12 @@
     </ClInclude>
     <ClInclude Include="code\polygon3D.h">
       <Filter>mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="code\playercontroller.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="code\skybox.h">
+      <Filter>gameobject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

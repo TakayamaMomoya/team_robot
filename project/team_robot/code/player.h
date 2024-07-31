@@ -11,6 +11,7 @@
 // インクルード
 //*****************************************************
 #include "motion.h"
+#include "playercontroller.h"
 
 //*****************************************************
 // 前方宣言
@@ -67,6 +68,7 @@ private:
 	// メンバ変数
 	S_FragMotion m_fragMotion;	// モーションのフラグ
 	S_Param m_param;	// パラメーター
+	CPlayerController *m_pController;	// コントローラー
 
 	// 静的メンバ変数
 	static CPlayer *s_pPlayer;	// 自身のポインタ

@@ -72,8 +72,8 @@ HRESULT CGame::Init(void)
 	// スロー管理の生成
 	CSlow::Create();
 
-	// メッシュキューブ生成
-	CMeshCube::Create();
+	// スカイボックス生成
+	CSkybox::Create();
 
 	return S_OK;
 }

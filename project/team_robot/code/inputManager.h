@@ -32,7 +32,9 @@ public:
 		BUTTON_TRIGGER_DOWN,	// 下方向弾き
 		BUTTON_TRIGGER_RIGHT,	// 右方向弾き
 		BUTTON_TRIGGER_LEFT,	// 左方向弾き
-		BUTTON_KATANA,	// 刀を振る
+		BUTTON_UP,	// 上昇
+		BUTTON_DOWN,	// 下降
+		BUTTON_QUICKBOOST,	// クイックブースト
 		BUTTON_MAX
 	};
 	struct SAxis
@@ -53,8 +55,6 @@ public:
 	bool GetTrigger(BUTTON button) { return m_info.abTrigger[button]; }
 	bool GetPress(BUTTON button) { return m_info.abPress[button]; }
 	SAxis GetAxis(void) { return m_axis; }
-	float GetAccele(void) { return m_fAccele; }
-	float GetBrake(void) { return m_fBreake; }
 
 private:
 	struct SInfo
@@ -66,8 +66,6 @@ private:
 	static CInputManager *m_pInputManager;	// 自身のポインタ
 	SInfo m_info;	// 情報
 	SAxis m_axis;	// 方向の情報
-	float m_fAccele;	// アクセルの入力
-	float m_fBreake;	// ブレーキの入力
 };
 
 #endif
