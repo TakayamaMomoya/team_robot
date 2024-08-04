@@ -34,6 +34,8 @@ public:
 		BUTTON_TRIGGER_LEFT,	// 左方向弾き
 		BUTTON_UP,	// 上昇
 		BUTTON_DOWN,	// 下降
+		BUTTON_ROLLRIGHT,	// 右ロール
+		BUTTON_ROLLLEFT,	// 左ロール
 		BUTTON_QUICKBOOST,	// クイックブースト
 		BUTTON_MAX
 	};

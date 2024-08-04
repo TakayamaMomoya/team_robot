@@ -207,6 +207,20 @@ void CInputManager::Update(void)
 		pKeyboard->GetPress(DIK_Q)
 	);
 
+	// 右ロールボタン
+	m_info.abPress[BUTTON_ROLLRIGHT] =
+	(
+		pJoypad->GetPress(CInputJoypad::PADBUTTONS_RB, 0) ||
+		pKeyboard->GetPress(DIK_C)
+	);
+
+	// 左ロールボタン
+	m_info.abPress[BUTTON_ROLLLEFT] =
+	(
+		pJoypad->GetPress(CInputJoypad::PADBUTTONS_LB, 0) ||
+		pKeyboard->GetPress(DIK_Z)
+	);
+
 	// クイックブースト
 	m_info.abTrigger[BUTTON_QUICKBOOST] =
 	(

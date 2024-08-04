@@ -34,6 +34,7 @@ public:
 private:
 	// ƒƒ“ƒoŠÖ”
 	void InputMove(void);	// ˆÚ“®‚Ì“ü—Í
+	void InputAttack(void);	// UŒ‚‚Ì“ü—Í
 };
 
 #endif

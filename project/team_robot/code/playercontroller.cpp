@@ -20,6 +20,7 @@ namespace
 const float SPEED_MOVE = 5.0f;	// スピード
 const float SPEED_YAW = D3DX_PI * 0.01f;	// ヨー速度
 const float SPEED_PITCH = D3DX_PI * 0.01f;	// ピッチ速度
+const float SPEED_ROLL = 0.01f;	// ロール速度
 const float SPEED_QUICKBOOST = 300.0f;	// クイックブースト速度
 }
 
@@ -62,6 +63,9 @@ void CPlayerController::Update(void)
 {
 	// 移動の入力
 	InputMove();
+
+	// 攻撃の入力
+	InputAttack();
 }
 
 //=====================================================
@@ -113,5 +117,20 @@ void CPlayerController::InputMove(void)
 	rot.x += axis.axisCamera.y * SPEED_PITCH;
 	rot.y += axis.axisCamera.x * SPEED_YAW;
 
+	// ロールの操作
+	if (pInputManager->GetPress(CInputManager::BUTTON::BUTTON_ROLLRIGHT))
+		rot.z += SPEED_ROLL;
+
+	if (pInputManager->GetPress(CInputManager::BUTTON::BUTTON_ROLLLEFT))
+		rot.z -= SPEED_ROLL;
+
 	pPlayer->SetRotation(rot);
+}
+
+//=====================================================
+// 攻撃の入力
+//=====================================================
+void CPlayerController::InputAttack(void)
+{
+
 }
