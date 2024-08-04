@@ -317,7 +317,7 @@ void CObject::DrawAll(void)
 		// ƒNƒŠƒA‚·‚é
 		pDevice->Clear(0, nullptr,
 			(D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER),
-			D3DCOLOR_RGBA(255, 255, 0, 255), 1.0f, 0);
+			D3DCOLOR_RGBA(0, 0, 0, 255), 1.0f, 0);
 	}
 
 	// ƒJƒƒ‰‚ÌŽæ“¾
