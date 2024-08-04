@@ -28,7 +28,6 @@
 #include "block.h"
 #include "debrisSpawner.h"
 #include "MyEffekseer.h"
-#include "physics.h"
 
 //*****************************************************
 // 静的メンバ変数宣言
@@ -36,7 +35,6 @@
 CCamera *CManager::m_pCamera = nullptr;	// カメラのポインタ
 CLight *CManager::m_pLight = nullptr;	// ライトのポインタ
 CEffekseer* CManager::m_pMyEffekseer = nullptr;  // エフェクシアのポインタ
-CPhysics* CManager::m_pPhysics = nullptr;        // 物理シミュレーションのポインタ
 CScene *CManager::m_pScene = nullptr;	// シーンへのポインタ
 CScene::MODE CManager::m_mode = CScene::MODE_GAME;	// 現在のモード
 int CManager::m_nScore = 0;	// スコア保存用
@@ -113,14 +111,6 @@ HRESULT CManager::Init(HINSTANCE hInstance, HWND hWnd, BOOL bWindow)
 
 		// 初期化
 		m_pMyEffekseer->Init();
-	}
-
-	if (m_pPhysics == nullptr)
-	{
-		m_pPhysics = new CPhysics;
-
-		// 初期化
-		m_pPhysics->Init();
 	}
 
 	// テクスチャ管理の生成
@@ -212,14 +202,6 @@ void CManager::Uninit(void)
 
 		delete m_pMyEffekseer;
 		m_pMyEffekseer = nullptr;
-	}
-
-	if (m_pPhysics != nullptr)
-	{// 物理シミュレーションの終了・破棄
-		m_pPhysics->Uninit();
-
-		delete m_pPhysics;
-		m_pPhysics = nullptr;
 	}
 
 	if (m_pCamera != nullptr)

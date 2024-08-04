@@ -52,9 +52,6 @@
     <ClCompile Include="code\player.cpp">
       <Filter>character</Filter>
     </ClCompile>
-    <ClCompile Include="code\physics.cpp">
-      <Filter>lib</Filter>
-    </ClCompile>
     <ClCompile Include="code\MyEffekseer.cpp">
       <Filter>lib</Filter>
     </ClCompile>
@@ -278,9 +275,6 @@
     </ClInclude>
     <ClInclude Include="code\imconfig.h">
       <Filter>imgui</Filter>
-    </ClInclude>
-    <ClInclude Include="code\physics.h">
-      <Filter>lib</Filter>
     </ClInclude>
     <ClInclude Include="code\myLib.h">
       <Filter>lib</Filter>
