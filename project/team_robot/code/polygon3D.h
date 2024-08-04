@@ -10,13 +10,12 @@
 //*****************************************************
 // インクルード
 //*****************************************************
-#include "main.h"
-#include "object.h"
+#include "object3D.h"
 
 //*****************************************************
 // クラスの定義
 //*****************************************************
-class CPolygon3D : public CObject
+class CPolygon3D : public CObject3D
 {
 public:
 	enum MODE
@@ -30,43 +29,40 @@ public:
 	CPolygon3D(int nPriority = 5);	// コンストラクタ
 	~CPolygon3D();	// デストラクタ
 
+	// メンバ関数
 	HRESULT Init(void);
 	void Uninit(void);
 	void Update(void);
 	void Draw(void);
-	static CPolygon3D *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot = { 0.0f,0.0f,0.0f });
-	float GetWidth(void) { return m_width; }	// サイズ取得
-	float GetHeight(void) { return m_heigth; }	// サイズ取得
+	void SetVtx(void);	// 頂点情報の設定
+	LPDIRECT3DVERTEXBUFFER9 CreateVtxBuff(int nNumVtx = 4);	// 頂点バッファの生成
+
+	// 変数取得・設定関数
+	float GetWidth(void) { return m_width; }	// 幅
+	float GetHeight(void) { return m_heigth; }	// 高さ
 	void SetSize(float width, float height);
-	void SetPosition(D3DXVECTOR3 pos) { m_pos = pos; }	// 設定処理
-	D3DXVECTOR3 GetPosition(void) { return m_pos; }	// 取得処理
-	D3DXVECTOR3 GetPositionOld(void) { return m_posOld; }
-	D3DXVECTOR3 GetRotation(void) { return m_rot; }
-	void SetRotation(D3DXVECTOR3 rot = { D3DX_PI * 0.5f,0.0f,0.0f }) { m_rot = rot; }
-	void SetIdxTexture(int nIdx) { m_nIdxTexture = nIdx; }
+	void SetIdxTexture(int nIdx) { m_nIdxTexture = nIdx; }	// テクスチャ番号
 	int GetIdxTexture(void) { return m_nIdxTexture; }
-	D3DXCOLOR GetColor(void) { return m_col; }
+	D3DXCOLOR GetColor(void) { return m_col; }	// 色
 	void SetColor(D3DXCOLOR col);
-	D3DXMATRIX *GetMatrix(void) { return &m_mtxWorld; }
-	void SetTex(D3DXVECTOR2 rd, D3DXVECTOR2 lu);
-	void SetFactSB(float fFact) { m_fFactSB = fFact; }
-	void SetVtx(void);
-	void SetMode(MODE mode);
+	void SetTex(D3DXVECTOR2 rd, D3DXVECTOR2 lu);	// テクスチャ座標
+	void SetFactSB(float fFact) { m_fFactSB = fFact; }	// ストレッチビルボードの補正値
+	void SetMode(MODE mode);	// 描画モード
 	MODE GetMode(void) { return m_mode; }
-	LPDIRECT3DVERTEXBUFFER9 GetVtxBuff(void) { return m_pVtxBuff; }
-	LPDIRECT3DVERTEXBUFFER9 CreateVtxBuff(int nNumVtx = 4);
+	LPDIRECT3DVERTEXBUFFER9 GetVtxBuff(void) { return m_pVtxBuff; }	// 頂点バッファ
+	void SetNormal(D3DXVECTOR3 nor);	// 法線の設定
+
+	// 静的メンバ関数
+	static CPolygon3D *Create(D3DXVECTOR3 pos, D3DXVECTOR3 rot = { 0.0f,0.0f,0.0f });
 
 private:
+	// メンバ関数
 	void SetVtxNormal(void);
 	void SetVtxStretchBillboard(void);
 	void SetMtx(void);
 	void SetMtxBillboard(void);
 
 	LPDIRECT3DVERTEXBUFFER9 m_pVtxBuff;	//頂点バッファへのポインタ
-	D3DXVECTOR3 m_pos;	// 位置
-	D3DXVECTOR3 m_posOld;	// 前回の位置
-	D3DXVECTOR3 m_rot;							//向き
-	D3DXMATRIX m_mtxWorld;						//ワールドマトリックス
 	D3DXCOLOR m_col;	// 色
 	float m_width;	// 幅
 	float m_heigth;	// 高さ

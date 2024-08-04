@@ -22,6 +22,7 @@
 #include "slow.h"
 #include "blockManager.h"
 #include "CameraState.h"
+#include "meshCube.h"
 
 //*****************************************************
 // マクロ定義
@@ -62,9 +63,6 @@ HRESULT CGame::Init(void)
 	// UIマネージャーの追加
 	CUIManager::Create();
 
-	// スカイボックスの生成
-	CSkybox::Create();
-
 	// BGM再生
 	Sound::Play(CSound::LABEL_BGM_GAME01);
 
@@ -73,6 +71,9 @@ HRESULT CGame::Init(void)
 
 	// スロー管理の生成
 	CSlow::Create();
+
+	// スカイボックス生成
+	CSkybox::Create();
 
 	return S_OK;
 }

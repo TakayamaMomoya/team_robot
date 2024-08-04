@@ -10,7 +10,7 @@
 //*****************************************************
 // インクルード
 //*****************************************************
-#include "gameObject.h"
+#include "object3D.h"
 
 //*****************************************************
 // 前方定義
@@ -20,7 +20,7 @@ class CPolygon3D;
 //*****************************************************
 // クラスの定義
 //*****************************************************
-class CMeshCube : public CGameObject
+class CMeshCube : public CObject3D
 {
 public:
 	CMeshCube(int nPriority = 6);	// コンストラクタ
@@ -36,6 +36,21 @@ public:
 	static CMeshCube *Create(void);	// 生成処理
 
 private:
+	// 列挙型定義
+	enum E_Rot
+	{// 向き
+		ROT_UP = 0,	// 上
+		ROT_DOWN,	// 下
+		ROT_RIGHT,	// 右
+		ROT_LEFT,	// 左
+		ROT_FRONT,	// 前
+		ROT_BACK,	// 後
+		ROT_MAX
+	};
+
+	// メンバ関数
+	void SetNormal(void);	// 法線の設定
+
 	// メンバ変数
 	D3DXVECTOR3 m_size;	// サイズ
 	std::vector<CPolygon3D*> m_apPolygon3D;	// 3Dポリゴンのポインタ

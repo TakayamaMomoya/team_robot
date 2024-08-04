@@ -175,7 +175,6 @@
     <ClCompile Include="code\blurEvent.cpp" />
     <ClCompile Include="code\camera.cpp" />
     <ClCompile Include="code\cameraState.cpp" />
-    <ClCompile Include="code\character.cpp" />
     <ClCompile Include="code\debris.cpp" />
     <ClCompile Include="code\debrisspawner.cpp" />
     <ClCompile Include="code\debugproc.cpp" />
@@ -212,6 +211,7 @@
     <ClCompile Include="code\number3D.cpp" />
     <ClCompile Include="code\object.cpp" />
     <ClCompile Include="code\object3D.cpp" />
+    <ClCompile Include="code\playercontroller.cpp" />
     <ClCompile Include="code\polygon2D.cpp" />
     <ClCompile Include="code\polygon3D.cpp" />
     <ClCompile Include="code\objectX.cpp" />
@@ -253,7 +253,6 @@
     <ClInclude Include="code\blurEvent.h" />
     <ClInclude Include="code\camera.h" />
     <ClInclude Include="code\cameraState.h" />
-    <ClInclude Include="code\character.h" />
     <ClInclude Include="code\debris.h" />
     <ClInclude Include="code\debrisSpawner.h" />
     <ClInclude Include="code\debugproc.h" />
@@ -292,6 +291,7 @@
     <ClInclude Include="code\number3D.h" />
     <ClInclude Include="code\object.h" />
     <ClInclude Include="code\object3D.h" />
+    <ClInclude Include="code\playercontroller.h" />
     <ClInclude Include="code\polygon2D.h" />
     <ClInclude Include="code\polygon3D.h" />
     <ClInclude Include="code\objectX.h" />

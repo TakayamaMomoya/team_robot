@@ -28,8 +28,6 @@ CInputManager::CInputManager()
 {
 	ZeroMemory(&m_info, sizeof(SInfo));
 	ZeroMemory(&m_axis, sizeof(SAxis));
-	m_fAccele = 0.0f;
-	m_fBreake = 0.0f;
 }
 
 //=====================================================
@@ -195,12 +193,25 @@ void CInputManager::Update(void)
 		pJoypad->GetTrigger(CInputJoypad::PADBUTTONS_LEFT, 0)
 	);
 
-	// 刀振るボタン
-	m_info.abTrigger[BUTTON_KATANA] =
+	// 上昇ボタン
+	m_info.abPress[BUTTON_UP] =
 	(
-		pJoypad->GetTrigger(CInputJoypad::PADBUTTONS_RB,0) ||
-		pJoypad->GetTrigger(CInputJoypad::PADBUTTONS_LB,0) ||
-		pKeyboard->GetTrigger(DIK_E)
+		pJoypad->GetPress(CInputJoypad::PADBUTTONS_A, 0) || 
+		pKeyboard->GetPress(DIK_E)
+	);
+
+	// 下降ボタン
+	m_info.abPress[BUTTON_DOWN] =
+	(
+		pJoypad->GetPress(CInputJoypad::PADBUTTONS_B, 0) ||
+		pKeyboard->GetPress(DIK_Q)
+	);
+
+	// クイックブースト
+	m_info.abTrigger[BUTTON_QUICKBOOST] =
+	(
+		pJoypad->GetTrigger(CInputJoypad::PADBUTTONS_X, 0) ||
+		pKeyboard->GetTrigger(DIK_SPACE)
 	);
 
 	// 方向のリセット
@@ -235,22 +246,6 @@ void CInputManager::Update(void)
 	m_axis.axisCamera += D3DXVECTOR3(pMouse->GetMoveIX(), pMouse->GetMoveIY(), 0.0f);
 
 	D3DXVec3Normalize(&m_axis.axisCamera, &m_axis.axisCamera);
-
-	// アクセルの操作
-	m_fAccele = pJoypad->GetTriggerR(0);
-
-	if (pKeyboard->GetPress(DIK_W))
-	{
-		m_fAccele = 1.0f;
-	}
-
-	// ブレーキの操作
-	m_fBreake = pJoypad->GetTriggerL(0);
-
-	if (pKeyboard->GetPress(DIK_S))
-	{
-		m_fBreake = 1.0f;
-	}
 }
 
 void CInputManager::UpdateDevice(void)

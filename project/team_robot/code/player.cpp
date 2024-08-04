@@ -9,53 +9,20 @@
 // インクルード
 //*****************************************************
 #include "player.h"
-#include "manager.h"
 #include "cameraState.h"
 #include "camera.h"
 #include "slow.h"
 #include "inputManager.h"
-#include "inputjoypad.h"
-#include "inputkeyboard.h"
-#include "pause.h"
 #include "debugproc.h"
-#include "blockManager.h"
 #include "effect3D.h"
-#include "polygon3D.h"
-#include "blur.h"
-#include "renderer.h"
-#include "game.h"
-#include "MyEffekseer.h"
-#include "sound.h"
-#include "orbit.h"
+#include "pause.h"
 
 //*****************************************************
 // 定数定義
 //*****************************************************
 namespace
 {
-const std::string PATH_PARAM = "data\\TEXT\\playerParam.txt";	// パラメーターデータのパス
-const float NOTROTATE = 1.0f;		// 回転しないようにする値
-const float DIST_LIMIT = 5000.0f;	// ワイヤー制限距離
-const float LINE_CORRECT_DRIFT = 40.0f;	// ドリフト補正のしきい値
-const float SIZE_BLUR = -20.0f;	// ブラーのサイズ
-const float DENSITY_BLUR = 0.5f;	// ブラーの濃さ
-const float SE_CHANGE_SPEED = 10.0f;  // エンジン音とアクセル音が切り替わる速度の値
-const float HANDLE_INERTIA = 0.03f;  // カーブ時の角度変更慣性
-const float HANDLE_INERTIA_RESET = 0.07f;  // 体勢角度リセット時の角度変更慣性倍率
-const float HANDLE_INERTIA_DRIFT = 0.08f;  // ドリフト時の角度変更慣性倍率
-const float HANDLE_INERTIA_DEFAULT = 0.1f;  // ドリフト姿勢から通常姿勢に戻る時の角度変更慣性倍率
-const float HANDLE_CURVE_MAG = -0.04f;  // 体勢からカーブへの倍率
-const float SIZE_SPEEDBLUR = 13.0f;	// スピードブラーのサイズ
-const float DENSITY_SPEEDBLUR = 0.3f;	// スピードブラーの濃さ
-const float ROT_CURVE_LIMIT = 0.02f;  // ハンドル操作がきく用になる角度の限界
-const float ROT_Z_DRIFT = 1.0f;  // ドリフト中のZ軸の角度
-const float GRAVITY = -0.2f;  // 重力の倍率
-const float GRAVITY_GROUND = -9.0f;  // 接地時の重力
-const float HEIGH_FRONT_WHEEL = 55.0f;  // 前輪の高さ
-const float HEIGH_REAR_WHEEL = 65.0f;  // 後輪の高さ
-const float ROT_BIKE_FRONT_LIMIT = 1.5f;  // 前回りの角度限界
-const float ROT_BIKE_REAR_LIMIT = -1.35f;  // 後ろ回りの角度限界
-const float ROT_AIRBIKE_MAG = 0.015f;  // 空中での回転倍率
+const string PATH_PARAM = "data\\TEXT\\playerParam.txt";	// パラメーターデータのパス
 }
 
 //*****************************************************
@@ -69,6 +36,7 @@ CPlayer *CPlayer::s_pPlayer = nullptr;	// 自身のポインタ
 CPlayer::CPlayer(int nPriority)
 {
 	s_pPlayer = this;
+	m_pController = nullptr;
 }
 
 //=====================================================
@@ -108,7 +76,7 @@ HRESULT CPlayer::Init(void)
 	// 継承クラスの初期化
 	CMotion::Init();
 
-	SetMotion(MOTION_WALK_FRONT);
+	SetMotion(E_Motion::MOTION_WALK_FRONT);
 
 	// 読込
 	Load();
@@ -125,8 +93,13 @@ HRESULT CPlayer::Init(void)
 	Camera::ChangeState(new CFollowPlayer);
 	Camera::SkipToDest();	// 目標位置までカメラを飛ばす
 
-	// サウンドインスタンスの取得
-	CSound* pSound = CSound::GetInstance();
+	// コントローラーの生成
+	m_pController = new CPlayerController;
+
+	if (m_pController != nullptr)
+	{
+		m_pController->Init();
+	}
 
 	return S_OK;
 }
@@ -174,6 +147,12 @@ void CPlayer::Uninit(void)
 {
 	s_pPlayer = nullptr;
 
+	if (m_pController != nullptr)
+	{
+		m_pController->Uninit();
+		m_pController = nullptr;
+	}
+
 	// 継承クラスの終了
 	CMotion::Uninit();
 }
@@ -183,17 +162,21 @@ void CPlayer::Uninit(void)
 //=====================================================
 void CPlayer::Update(void)
 {
-#ifdef _DEBUG
-	if (CGame::GetInstance()->GetStop())
-		return;
-#endif
-
 	// 入力
 	Input();
 
 	// 前回の位置を保存
 	D3DXVECTOR3 pos = GetPosition();
 	SetPositionOld(pos);
+
+	// 移動量の減衰
+	D3DXVECTOR3 move = GetMove();
+	move *= 0.98f;
+	SetMove(move);
+
+	// 移動量を位置に反映
+	pos += move;
+	SetPosition(pos);
 
 	// 継承クラスの更新
 	CMotion::Update();
@@ -209,17 +192,14 @@ void CPlayer::Update(void)
 //=====================================================
 void CPlayer::Input(void)
 {
-	// 移動操作
-	InputMove();
-
 	CInputManager *pInputManager = CInputManager::GetInstance();
 
-	if (pInputManager != nullptr)
+	if (pInputManager == nullptr)
+		return;
+
+	if (pInputManager->GetTrigger(CInputManager::BUTTON_PAUSE))
 	{// ポーズの発生
-		if (pInputManager->GetTrigger(CInputManager::BUTTON_PAUSE))
-		{
-			CPause::Create();
-		}
+		CPause::Create();
 	}
 }
 
@@ -230,9 +210,6 @@ void CPlayer::InputMove(void)
 {
 	CSlow *pSlow = CSlow::GetInstance();
 	CInputManager *pInputManager = CInputManager::GetInstance();
-
-	// サウンドインスタンスの取得
-	CSound* pSound = CSound::GetInstance();
 
 	if (pInputManager == nullptr)
 	{
