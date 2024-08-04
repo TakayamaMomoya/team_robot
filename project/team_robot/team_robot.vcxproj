@@ -182,6 +182,8 @@
     <ClCompile Include="code\effect3D.cpp" />
     <ClCompile Include="code\gameObject.cpp" />
     <ClCompile Include="code\meshCube.cpp" />
+    <ClCompile Include="code\mob.cpp" />
+    <ClCompile Include="code\mobFactory.cpp" />
     <ClCompile Include="code\MyEffekseer.cpp" />
     <ClCompile Include="code\fade.cpp" />
     <ClCompile Include="code\fan.cpp" />
@@ -259,6 +261,8 @@
     <ClInclude Include="code\effect3D.h" />
     <ClInclude Include="code\gameObject.h" />
     <ClInclude Include="code\meshCube.h" />
+    <ClInclude Include="code\mob.h" />
+    <ClInclude Include="code\mobFactory.h" />
     <ClInclude Include="code\MyEffekseer.h" />
     <ClInclude Include="code\fade.h" />
     <ClInclude Include="code\fan.h" />

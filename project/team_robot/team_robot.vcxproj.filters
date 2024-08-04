@@ -217,6 +217,12 @@
     <ClCompile Include="code\skybox.cpp">
       <Filter>gameobject</Filter>
     </ClCompile>
+    <ClCompile Include="code\mob.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="code\mobFactory.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\imgui.h">
@@ -440,6 +446,12 @@
     </ClInclude>
     <ClInclude Include="code\skybox.h">
       <Filter>gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="code\mob.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="code\mobFactory.h">
+      <Filter>character</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

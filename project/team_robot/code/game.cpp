@@ -23,11 +23,13 @@
 #include "blockManager.h"
 #include "CameraState.h"
 #include "meshCube.h"
+#include "mobFactory.h"
 
 //*****************************************************
 // マクロ定義
 //*****************************************************
 #define TRANS_TIME	(100)	// 終了までの余韻のフレーム数
+
 namespace
 {
 const char* PATH_GAME_ROAD = "data\\MAP\\road00.bin";	// ゲームメッシュロードのパス
@@ -68,6 +70,9 @@ HRESULT CGame::Init(void)
 
 	// プレイヤーの生成
 	CPlayer::Create();
+
+	// モブファクトリーの生成
+	CMobFactory::Create();
 
 	// スロー管理の生成
 	CSlow::Create();
