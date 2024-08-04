@@ -221,6 +221,12 @@
       <Filter>character</Filter>
     </ClCompile>
     <ClCompile Include="code\mobFactory.cpp">
+      <Filter>gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="code\enemy.cpp">
+      <Filter>character</Filter>
+    </ClCompile>
+    <ClCompile Include="code\ally.cpp">
       <Filter>character</Filter>
     </ClCompile>
   </ItemGroup>
@@ -451,6 +457,12 @@
       <Filter>character</Filter>
     </ClInclude>
     <ClInclude Include="code\mobFactory.h">
+      <Filter>gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="code\enemy.h">
+      <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="code\ally.h">
       <Filter>character</Filter>
     </ClInclude>
   </ItemGroup>

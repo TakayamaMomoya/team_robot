@@ -107,14 +107,28 @@ namespace MobFactroy
 //=====================================================
 // ƒ‚ƒu‚Ì¶¬
 //=====================================================
-CMob *CreateMob(void)
+CMob *CreateMob(CMob::E_Faction fanction)
 {
 	CMobFactory *pMobfactory = CMobFactory::GetInstance();
 
 	if (pMobfactory == nullptr)
 		return nullptr;
 
-	 CMob *pMob = pMobfactory->CreateMob();
+	 CMob *pMob = nullptr;
+
+	 switch (fanction)
+	 {
+	 case CMob::E_Faction::FACTION_ALLY:	// –¡•û‚Ì¶¬
+		 break;
+	 case CMob::E_Faction::FACTION_ENEMY:	// “G‚Ì¶¬
+		 break;
+	 default:
+		 throw std::invalid_argument("Unknown MobType");
+		 break;
+	 }
+
+	 if (pMob != nullptr)
+		 pMob->Init();
 	
 	 return pMob;
 }

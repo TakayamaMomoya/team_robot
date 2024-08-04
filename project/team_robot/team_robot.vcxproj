@@ -165,6 +165,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="code\afterimage.cpp" />
+    <ClCompile Include="code\ally.cpp" />
     <ClCompile Include="code\anim3D.cpp" />
     <ClCompile Include="code\animation2D.cpp" />
     <ClCompile Include="code\backends\imgui_impl_dx9.cpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="code\debugproc.cpp" />
     <ClCompile Include="code\effect2D.cpp" />
     <ClCompile Include="code\effect3D.cpp" />
+    <ClCompile Include="code\enemy.cpp" />
     <ClCompile Include="code\gameObject.cpp" />
     <ClCompile Include="code\meshCube.cpp" />
     <ClCompile Include="code\mob.cpp" />
@@ -244,6 +246,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\afterimage.h" />
+    <ClInclude Include="code\ally.h" />
     <ClInclude Include="code\anim3D.h" />
     <ClInclude Include="code\animation2D.h" />
     <ClInclude Include="code\backends\imgui_impl_dx9.h" />
@@ -259,6 +262,7 @@
     <ClInclude Include="code\debugproc.h" />
     <ClInclude Include="code\effect2D.h" />
     <ClInclude Include="code\effect3D.h" />
+    <ClInclude Include="code\enemy.h" />
     <ClInclude Include="code\gameObject.h" />
     <ClInclude Include="code\meshCube.h" />
     <ClInclude Include="code\mob.h" />
