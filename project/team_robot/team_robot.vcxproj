@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{7D328313-3026-447F-9C37-A9EDA8DD49EC}</ProjectGuid>
+    <ProjectGuid>{35661E1C-3093-4F29-A2CB-C3715F4E31E6}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>My00_ShinobiDrift</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
