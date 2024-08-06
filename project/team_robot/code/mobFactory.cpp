@@ -10,6 +10,8 @@
 //*****************************************************
 #include "mobFactory.h"
 #include "mob.h"
+#include "ally.h"
+#include "enemy.h"
 
 //*****************************************************
 // Ã“Iƒƒ“ƒo•Ï”éŒ¾
@@ -119,8 +121,10 @@ CMob *CreateMob(CMob::E_Faction fanction)
 	 switch (fanction)
 	 {
 	 case CMob::E_Faction::FACTION_ALLY:	// –¡•û‚Ì¶¬
+		 pMob = new CAlly;
 		 break;
 	 case CMob::E_Faction::FACTION_ENEMY:	// “G‚Ì¶¬
+		 pMob = new CEnemy;
 		 break;
 	 default:
 		 throw std::invalid_argument("Unknown MobType");

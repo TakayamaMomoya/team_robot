@@ -80,6 +80,9 @@ HRESULT CGame::Init(void)
 	// スカイボックス生成
 	CSkybox::Create();
 
+	// 仮敵モブ生成
+	MobFactroy::CreateMob(CMob::E_Faction::FACTION_ENEMY);
+
 	return S_OK;
 }
 

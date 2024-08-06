@@ -59,6 +59,10 @@ HRESULT CMob::Init(void)
 	// åpè≥ÉNÉâÉXÇÃèâä˙âª
 	CMotion::Init();
 
+	Load("data\\MOTION\\motionArms01.txt");
+
+	SetMotion(0);
+
 	return S_OK;
 }
 
@@ -76,7 +80,7 @@ void CMob::Uninit(void)
 //=====================================================
 void CMob::Update(void)
 {
-
+	CMotion::Update();
 }
 
 //=====================================================
