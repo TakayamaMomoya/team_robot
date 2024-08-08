@@ -229,6 +229,12 @@
     <ClCompile Include="code\ally.cpp">
       <Filter>character</Filter>
     </ClCompile>
+    <ClCompile Include="code\weapon.cpp">
+      <Filter>gameobject</Filter>
+    </ClCompile>
+    <ClCompile Include="code\weaponManager.cpp">
+      <Filter>gameobject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="code\imgui.h">
@@ -464,6 +470,12 @@
     </ClInclude>
     <ClInclude Include="code\ally.h">
       <Filter>character</Filter>
+    </ClInclude>
+    <ClInclude Include="code\weapon.h">
+      <Filter>gameobject</Filter>
+    </ClInclude>
+    <ClInclude Include="code\weaponManager.h">
+      <Filter>gameobject</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

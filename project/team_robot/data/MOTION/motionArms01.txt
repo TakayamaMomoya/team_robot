@@ -9,7 +9,7 @@ SCRIPT
 #====================================================================
 # モデル数
 #====================================================================
-NUM_MODEL = 17
+NUM_MODEL = 15
 
 #====================================================================
 # モデルファイル名
@@ -29,8 +29,6 @@ MODEL_FILENAME = data/MODEL/arms01/11_toeL.x
 MODEL_FILENAME = data/MODEL/arms01/12_legR.x
 MODEL_FILENAME = data/MODEL/arms01/13_footR.x
 MODEL_FILENAME = data/MODEL/arms01/14_toeR.x
-MODEL_FILENAME = data/MODEL/weapon/smg.x
-MODEL_FILENAME = data/MODEL/weapon/sword.x
 
 #====================================================================
 # キャラクター情報
@@ -126,18 +124,6 @@ CHARACTERSET
         INDEX = 14
         PARENT = 13
         POS = 0.0 -111.4 0.0
-        ROT = 0.0 0.0 0.0
-    END_PARTSSET
-    PARTSSET
-        INDEX = 15
-        PARENT = 5
-        POS = 0.0 -60.0 -5.0
-        ROT = 0.0 0.0 0.0
-    END_PARTSSET
-    PARTSSET
-        INDEX = 16
-        PARENT = 8
-        POS = 0.0 -60.0 -5.0
         ROT = 0.0 0.0 0.0
     END_PARTSSET
 END_CHARACTERSET
