@@ -1054,6 +1054,73 @@ D3DXVECTOR3 Lerp(D3DXVECTOR3 start, D3DXVECTOR3 end, float fTime)
 }
 
 //========================================
+// クォータニオンのラープ
+//========================================
+D3DXQUATERNION QuaternionLerp(D3DXQUATERNION *pQuat1, D3DXQUATERNION *pQuat2, float t)
+{
+	// クォータニオンを線形補間する
+	D3DXQUATERNION result(0.0f, 0.0f, 0.0f, 1.0f);
+
+	if (pQuat1 == nullptr || pQuat2 == nullptr)
+		return result;
+
+	// 補間
+	result.x = (1 - t) * pQuat1->x + t * pQuat2->x;
+	result.y = (1 - t) * pQuat1->y + t * pQuat2->y;
+	result.z = (1 - t) * pQuat1->z + t * pQuat2->z;
+	result.w = (1 - t) * pQuat1->w + t * pQuat2->w;
+
+	// 結果を正規化
+	D3DXQuaternionNormalize(&result, &result);
+
+	return result;
+}
+
+//========================================
+// ターゲットの方を向く処理(クォータニオン)
+//========================================
+D3DXQUATERNION SmoothFaceTowardsTarget(D3DXQUATERNION quatCurrent, D3DXVECTOR3 posOwn, D3DXVECTOR3 posTarget, D3DXVECTOR3 vecForward, D3DXVECTOR3 vecUp, float fSpeed)
+{
+	// ターゲット方向を計算
+	D3DXVECTOR3 targetDirection = posTarget - posOwn;
+	D3DXVec3Normalize(&targetDirection, &targetDirection);  // 正規化して単位ベクトルにする
+
+	// 現在の前方向ベクトル
+	D3DXVECTOR3 currentForward(0, 0, 1);
+
+	// 現在の向きからターゲット方向へのクォータニオンを計算
+	D3DXQUATERNION targetRotationQuat;
+	D3DXQUATERNION identityQuat;
+	D3DXQuaternionIdentity(&identityQuat);
+
+	float dotProduct = D3DXVec3Dot(&currentForward, &targetDirection);
+
+	if (dotProduct < -0.999f)
+	{// 反対を向いていたら真上のベクトルで回転
+		D3DXQuaternionRotationAxis(&targetRotationQuat, &vecUp, D3DX_PI);
+	}
+	else 
+	{
+		// 正面ベクトルとターゲットの間の回転軸を計算
+		D3DXVECTOR3 rotationAxis;
+		D3DXVec3Cross(&rotationAxis, &currentForward, &targetDirection);
+		D3DXVec3Normalize(&rotationAxis, &rotationAxis);
+
+		float angle = acosf(dotProduct);
+		D3DXQuaternionRotationAxis(&targetRotationQuat, &rotationAxis, angle);
+
+		CDebugProc::GetInstance()->Print("\nrotationAxis[%f,%f,%f]", rotationAxis.x, rotationAxis.y, rotationAxis.z);
+	}
+
+	// クォータニオンを補間して、スムーズに回転
+	float t = fSpeed;
+	D3DXQUATERNION smoothedRotation = QuaternionLerp(&quatCurrent, &targetRotationQuat, t);
+
+	// 新しい回転を設定
+	return smoothedRotation;
+}
+
+//========================================
 // 線分に対するの射影変換
 //========================================
 float lengthAxis(D3DXVECTOR3 separationAxis, D3DXVECTOR3 e1, D3DXVECTOR3 e2, D3DXVECTOR3 e3)

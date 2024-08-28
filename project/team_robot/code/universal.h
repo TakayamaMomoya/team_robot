@@ -77,6 +77,8 @@ D3DXVECTOR3 CollideOBBToPlane(D3DXVECTOR3* posOBB, D3DXVECTOR3 vecAxial, D3DXVEC
 // •âŠ®Œn
 //======================================
 D3DXVECTOR3 Lerp(D3DXVECTOR3 start, D3DXVECTOR3 end, float fTime);
+D3DXQUATERNION QuaternionLerp(D3DXQUATERNION *pQuat1, D3DXQUATERNION *pQuat2, float t);
+D3DXQUATERNION SmoothFaceTowardsTarget(D3DXQUATERNION quatCurrent, D3DXVECTOR3 posOwn, D3DXVECTOR3 posTarget, D3DXVECTOR3 vecForward, D3DXVECTOR3 vecUp, float fSpeed);
 }
 
 #endif

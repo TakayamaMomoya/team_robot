@@ -9,6 +9,7 @@
 // インクルード
 //*****************************************************
 #include "enemy.h"
+#include "mobFactory.h"
 
 //*****************************************************
 // 定数定義
@@ -49,6 +50,17 @@ HRESULT CEnemy::Init(void)
 //=====================================================
 void CEnemy::Uninit(void)
 {
+	CMobFactory *pMobfactory = CMobFactory::GetInstance();
+
+	if (pMobfactory != nullptr)
+	{
+		list<CMob*> aEnemy = pMobfactory->GetEnemy();
+
+		aEnemy.remove((CMob*)this);
+
+		pMobfactory->SetEnemy(aEnemy);
+	}
+
 	CMob::Uninit();
 }
 

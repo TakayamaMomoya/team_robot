@@ -33,7 +33,7 @@ CWeapon::~CWeapon()
 //=====================================================
 // ê∂ê¨èàóù
 //=====================================================
-CWeapon *CWeapon::Create(string stPath)
+CWeapon *CWeapon::Create(string sPath)
 {
 	CWeapon *pWeapon = nullptr;
 

@@ -156,6 +156,9 @@ void CMeshCube::Update(void)
 	{
 		it->SetMatrixParent(mtx);
 	}
+
+	D3DXVECTOR3 pos = GetPosition();
+	CDebugProc::GetInstance()->Print("\npos[%f,%f,%f]", mtx._41, mtx._42, mtx._43);
 }
 
 //=====================================================

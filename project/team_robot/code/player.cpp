@@ -16,6 +16,7 @@
 #include "debugproc.h"
 #include "effect3D.h"
 #include "pause.h"
+#include "mobFactory.h"
 
 //*****************************************************
 // 定数定義
@@ -162,6 +163,9 @@ void CPlayer::Uninit(void)
 //=====================================================
 void CPlayer::Update(void)
 {
+	// ロックオン
+	Lockon();
+
 	// 入力
 	Input();
 
@@ -185,6 +189,57 @@ void CPlayer::Update(void)
 #if _DEBUG
 	Debug();
 #endif // _DEBUG
+}
+
+//=====================================================
+// ロックオン
+//=====================================================
+void CPlayer::Lockon(void)
+{
+	// 捉えている敵がいたらクォータニオンを補正
+
+	// 敵のリストを取得
+	CMobFactory *pMobfactory = CMobFactory::GetInstance();
+
+	if (pMobfactory == nullptr)
+		return;
+
+	list<CMob*> aEnemy = pMobfactory->GetEnemy();
+
+	// 近い敵を捕捉
+	float fDistMin = FLT_MAX;
+	CMob* pEnemyNearest = nullptr;
+
+	for (CMob* pEnemy : aEnemy)
+	{
+		if (pEnemy == nullptr)
+			continue;
+
+		D3DXVECTOR3 posEnemy = pEnemy->GetPosition();
+		D3DXVECTOR3 pos = GetPosition();
+
+		float fDiff;
+		bool bNear = universal::DistCmp(pos, posEnemy, fDistMin, &fDiff);
+
+		if (bNear)
+		{
+			pEnemyNearest = pEnemy;
+			fDistMin = fDiff;
+		}
+	}
+
+	if (pEnemyNearest != nullptr)
+	{
+		D3DXQUATERNION quat = GetQuaternion();
+		D3DXVECTOR3 pos = GetPosition();
+		D3DXVECTOR3 posEnemy = pEnemyNearest->GetPosition();
+		D3DXVECTOR3 vecForward = GetForward();
+		D3DXVECTOR3 vecUp = GetUp();
+
+		D3DXQUATERNION quatResult = universal::SmoothFaceTowardsTarget(quat, posEnemy,pos, vecForward, vecUp, 0.5f);
+
+		SetQuaternion(quatResult);
+	}
 }
 
 //=====================================================
@@ -231,7 +286,6 @@ void CPlayer::Event(EVENT_INFO *pEventInfo)
 	universal::SetOffSet(&mtxParent, mtxPart, offset);
 
 	D3DXVECTOR3 pos = { mtxParent._41,mtxParent._42 ,mtxParent._43 };
-
 }
 
 //=====================================================

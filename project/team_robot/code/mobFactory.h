@@ -28,6 +28,14 @@ public:
 	void Update(void);	// 更新
 	void Draw(void);	// 描画
 	CMob *CreateMob(CMob::E_Faction fanction);	// モブの生成
+	void AddAlly(CMob *pMob);	// 味方の追加
+	void AddEnemy(CMob *pMob);	// 敵機の追加
+
+	// 変数取得・設定関数
+	list<CMob*> GetAlly(void) { return m_aAlly; }	// 味方リスト
+	void SetAlly(list<CMob*> list) { m_aAlly = list; }
+	list<CMob*> GetEnemy(void) { return m_aEnemy; }	// 敵リスト
+	void SetEnemy(list<CMob*> list) { m_aEnemy = list; }
 
 	// 静的メンバ関数
 	static CMobFactory *Create(void);	// 生成処理
@@ -35,8 +43,8 @@ public:
 
 private:
 	// メンバ変数
-	vector<CMob*> m_aAlly;	// 味方のリスト
-	vector<CMob*> m_aEnemy;	// 敵のリスト
+	list<CMob*> m_aAlly;	// 味方のリスト
+	list<CMob*> m_aEnemy;	// 敵のリスト
 
 	// 静的メンバ変数
 	static CMobFactory *s_pMobFactory;	// 自身のポインタ

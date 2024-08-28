@@ -95,13 +95,29 @@ void CMobFactory::Draw(void)
 //=====================================================
 // ƒ‚ƒu‚Ì¶¬
 //=====================================================
-CMob *CreateMob(void)
+CMob *CMobFactory::CreateMob(CMob::E_Faction fanction)
 {
 	CMob *pMob = nullptr;
 
 	pMob = new CMob;
 
 	return pMob;
+}
+
+//=====================================================
+// –¡•û‚Ì’Ç‰Á
+//=====================================================
+void CMobFactory::AddAlly(CMob *pMob)
+{
+	m_aAlly.push_back(pMob);
+}
+
+//=====================================================
+// “G‚Ì’Ç‰Á
+//=====================================================
+void CMobFactory::AddEnemy(CMob *pMob)
+{
+	m_aEnemy.push_back(pMob);
 }
 
 namespace MobFactroy
@@ -122,9 +138,11 @@ CMob *CreateMob(CMob::E_Faction fanction)
 	 {
 	 case CMob::E_Faction::FACTION_ALLY:	// –¡•û‚Ì¶¬
 		 pMob = new CAlly;
+		 pMobfactory->AddAlly(pMob);
 		 break;
 	 case CMob::E_Faction::FACTION_ENEMY:	// “G‚Ì¶¬
 		 pMob = new CEnemy;
+		 pMobfactory->AddEnemy(pMob);
 		 break;
 	 default:
 		 throw std::invalid_argument("Unknown MobType");

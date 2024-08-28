@@ -9,6 +9,7 @@
 // インクルード
 //*****************************************************
 #include "ally.h"
+#include "mobFactory.h"
 
 //*****************************************************
 // 定数定義
@@ -49,6 +50,17 @@ HRESULT CAlly::Init(void)
 //=====================================================
 void CAlly::Uninit(void)
 {
+	CMobFactory *pMobfactory = CMobFactory::GetInstance();
+
+	if (pMobfactory != nullptr)
+	{
+		list<CMob*> aAlly = pMobfactory->GetAlly();
+
+		aAlly.remove((CMob*)this);
+
+		pMobfactory->SetAlly(aAlly);
+	}
+
 	CMob::Uninit();
 }
 

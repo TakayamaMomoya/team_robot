@@ -60,6 +60,7 @@ private:
 
 	// メンバ関数
 	void Load(void);	// パラメーター読込
+	void Lockon(void);	// ロックオン状態
 	void Input(void);	// 入力
 	void InputMove(void);	// 移動の入力
 	void Event(EVENT_INFO *pEventInfo);	// イベントの処理

@@ -323,6 +323,6 @@ void CDebrisSpawner::Load(void)
 	}
 	else
 	{
-		assert(("パーティクル情報読み込みに失敗", false));
+
 	}
 }
