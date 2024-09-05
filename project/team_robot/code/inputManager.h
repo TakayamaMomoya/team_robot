@@ -37,6 +37,7 @@ public:
 		BUTTON_ROLLRIGHT,	// 右ロール
 		BUTTON_ROLLLEFT,	// 左ロール
 		BUTTON_QUICKBOOST,	// クイックブースト
+		BUTTON_LOCKON,	// ロックオン
 		BUTTON_MAX
 	};
 	struct SAxis

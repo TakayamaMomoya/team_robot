@@ -47,6 +47,10 @@ public:
 	void Draw(void);	// 描画
 	void Hit(float fDamage);	// ヒット処理
 
+	// 変数取得・設定関数
+	void EnableLockon(bool bLockon) { m_bLockOn = bLockon; }	// ロックオンフラグ
+	bool IsLockon(void) { return m_bLockOn; }
+
 	// 静的メンバ関数
 	static CPlayer *Create(void);	// 生成処理
 	static CPlayer *GetInstance(void) { return s_pPlayer; }	// インスタンスの取得
@@ -70,6 +74,7 @@ private:
 	S_FragMotion m_fragMotion;	// モーションのフラグ
 	S_Param m_param;	// パラメーター
 	CPlayerController *m_pController;	// コントローラー
+	bool m_bLockOn;	// ロックオンフラグ
 
 	// 静的メンバ変数
 	static CPlayer *s_pPlayer;	// 自身のポインタ

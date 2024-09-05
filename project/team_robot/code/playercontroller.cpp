@@ -125,6 +125,16 @@ void CPlayerController::InputMove(void)
 		rot.z -= SPEED_ROLL;
 
 	pPlayer->SetRotation(rot);
+
+	// ƒƒbƒNƒIƒ“Ø‚è‘Ö‚¦‘€ì
+	if (pInputManager->GetTrigger(CInputManager::BUTTON::BUTTON_LOCKON))
+	{
+		bool bLockon = pPlayer->IsLockon();
+
+		bLockon = bLockon ? false : true;
+
+		pPlayer->EnableLockon(bLockon);
+	}
 }
 
 //=====================================================

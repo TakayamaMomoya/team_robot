@@ -228,6 +228,13 @@ void CInputManager::Update(void)
 		pKeyboard->GetTrigger(DIK_SPACE)
 	);
 
+	// ロックオン
+	m_info.abTrigger[BUTTON_LOCKON] =
+	(
+		pJoypad->GetTrigger(CInputJoypad::PADBUTTONS_RSTICK, 0) ||
+		pMouse->GetTrigger(CInputMouse::BUTTON_WHEEL)
+	);
+
 	// 方向のリセット
 	ZeroMemory(&m_axis, sizeof(SAxis));
 

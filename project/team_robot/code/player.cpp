@@ -38,6 +38,7 @@ CPlayer::CPlayer(int nPriority)
 {
 	s_pPlayer = this;
 	m_pController = nullptr;
+	m_bLockOn = false;
 }
 
 //=====================================================
@@ -228,12 +229,12 @@ void CPlayer::Lockon(void)
 		}
 	}
 
-	if (pEnemyNearest != nullptr)
+	if (pEnemyNearest != nullptr && m_bLockOn)
 	{
 		D3DXQUATERNION quat = GetQuaternion();
 		D3DXVECTOR3 pos = GetPosition();
 		D3DXVECTOR3 posEnemy = pEnemyNearest->GetPosition();
-		D3DXVECTOR3 vecForward = GetForward();
+		D3DXVECTOR3 vecForward = pEnemyNearest->GetForward();
 		D3DXVECTOR3 vecUp = GetUp();
 
 		D3DXQUATERNION quatResult = universal::SmoothFaceTowardsTarget(quat, posEnemy,pos, vecForward, vecUp, 0.5f);
